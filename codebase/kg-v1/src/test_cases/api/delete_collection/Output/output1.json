@@ -1,0 +1,13 @@
+
+{
+  "status": {
+    "isOk": true,
+    "brainStatusInstance": [
+      { "statusCode": "KNOWLEDGE_GRAPH_COLLECTION_DELETED",
+        "parameters": {
+          "msg": "no error"
+        }
+      }
+    ]
+  }
+}

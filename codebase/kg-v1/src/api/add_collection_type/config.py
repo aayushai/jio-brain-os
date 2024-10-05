@@ -1,0 +1,3 @@
+API_NAME = "add_collection_type"
+MAX_WORKERS=5
+SERVER_PORT=31001

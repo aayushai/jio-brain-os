@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graph-query-api-deployment
+  labels:
+    app: graph-query-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: graph-query-api
+  template:
+    metadata:
+      labels:
+        app: graph-query-api
+    spec:
+      containers:
+      - name: graph-query-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/graph_query_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31016
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: graph-query-service
+spec:
+  selector:
+    app: graph-query-api
+  ports:
+    - name: tcp-port
+      targetPort: 31016
+      port: 31016
+      protocol: TCP
+  type: ClusterIP

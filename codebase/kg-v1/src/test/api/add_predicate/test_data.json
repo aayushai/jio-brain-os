@@ -1,0 +1,27 @@
+{  
+    "predicate": {
+     "predicate_name": "agriculture_cattle_is_owned_by_farmer",
+     "attributes": {
+         "ownership_date": {
+             "atomic": {
+               "symbolic": {
+                 "value": {
+                   "str": "2.12.2021"
+                 }
+               }
+             }
+           },
+           "ownership_duration": {
+            "atomic": {
+              "numeric": {
+                "value": {
+                  "u32": 4
+                }
+              }
+            }
+          }
+     }
+ },
+   "from_entity_id": "agriculture_cattle/9938887",
+   "to_entity_id": "common_person/12211"
+ }

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-entity-id-by-name-api-deployment
+  labels:
+    app: get-entity-id-by-name-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-entity-id-by-name-api
+  template:
+    metadata:
+      labels:
+        app: get-entity-id-by-name-api
+    spec:
+      containers:
+      - name: get-entity-id-by-name-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_entity_id_by_name_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31048
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-entity-id-by-name-service
+spec:
+  selector:
+    app: get-entity-id-by-name-api
+  ports:
+    - name: tcp-port
+      targetPort: 31048
+      port: 31048
+      protocol: TCP
+  type: ClusterIP

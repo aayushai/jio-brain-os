@@ -1,0 +1,19 @@
+{  
+  "predicate": {
+   "predicate_name": "agriculture_crop_is_sown_in_agriculture_farm",
+   "attributes": {
+         "ownership_duration": {
+          "atomic": {
+            "numeric": {
+              "value": {
+                "u32": 4
+              }
+            }
+          }
+        }
+   }
+   },
+ "from_entity_id": "",
+ "to_entity_id": "agriculture_farm/20000063"
+  }
+

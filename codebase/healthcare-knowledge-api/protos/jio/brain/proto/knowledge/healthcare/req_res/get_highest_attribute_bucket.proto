@@ -1,0 +1,14 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+// TODO package google.protobuf Empty
+message GetHighestAttributeBucketRequest {
+    
+}
+
+message GetHighestAttributeBucketResponse { 
+    uint32 bucket = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

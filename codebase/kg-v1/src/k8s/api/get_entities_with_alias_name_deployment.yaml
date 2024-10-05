@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-entities-with-alias-name-api-deployment
+  labels:
+    app: get-entities-with-alias-name-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-entities-with-alias-name-api
+  template:
+    metadata:
+      labels:
+        app: get-entities-with-alias-name-api
+    spec:
+      containers:
+      - name: get-entities-with-alias-name-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_entities_with_alias_name_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31019
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-entities-with-alias-name-service
+spec:
+  selector:
+    app: get-entities-with-alias-name-api
+  ports:
+    - name: tcp-port
+      targetPort: 31019
+      port: 31019
+      protocol: TCP
+  type: ClusterIP

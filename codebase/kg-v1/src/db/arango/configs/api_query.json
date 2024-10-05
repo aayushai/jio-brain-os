@@ -1,0 +1,5 @@
+{
+	"get_entities_with_canonical_name": "FOR entity IN %s FOR entity_name in entity.name FILTER entity_name.canonical == '%s' AND entity_name.language == '%s' RETURN {name: entity.name, type: entity.type, biz_id: entity.biz_id}",
+	"add_entity": "insert %s into %s LET inserted = NEW return inserted._id",
+	"get_canonical_name": "FOR entity IN %s FOR entity_name in entity.name FILTER entity._id == '%s' AND entity_name.language == '%s' RETURN entity.name[0].canonical"
+}

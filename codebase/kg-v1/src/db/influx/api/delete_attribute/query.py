@@ -1,0 +1,1 @@
+query = "DROP measurement %s"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delete-collection-api-deployment
+  labels:
+    app: delete-collection-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delete-collection-api
+  template:
+    metadata:
+      labels:
+        app: delete-collection-api
+    spec:
+      containers:
+      - name: delete-collection-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/delete_collection_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31013
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delete-collection-service
+spec:
+  selector:
+    app: delete-collection-api
+  ports:
+    - name: tcp-port
+      targetPort: 31013
+      port: 31013
+      protocol: TCP
+  type: ClusterIP

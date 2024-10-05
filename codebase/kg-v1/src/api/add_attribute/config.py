@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31024
+API_NAME = "add_attribute"

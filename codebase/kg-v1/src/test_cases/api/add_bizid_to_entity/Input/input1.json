@@ -1,0 +1,9 @@
+
+{
+	"entity_id": "common_person/20000050",
+	"bizId" : 
+	{
+		"type": "/bizid/common_person/aadharcard",
+		"value": "Modi-Aadhar-Card-Official"
+	}	
+}

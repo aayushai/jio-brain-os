@@ -1,0 +1,14 @@
+{
+  "predicate": [
+    {
+      "type": "common_politician",
+      "entity_ids": [
+        "1786469"
+      ],
+      "predicates": [
+        "is_a"
+      ]
+    }
+  ]
+}
+

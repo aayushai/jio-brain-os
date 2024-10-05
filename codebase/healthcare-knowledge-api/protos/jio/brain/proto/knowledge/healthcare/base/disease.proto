@@ -1,0 +1,11 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+message Disease {
+    uint32 id = 1;
+    string entity_type = 2;
+    string name = 3;
+    string severity = 4;
+    string display_name = 5;
+}
+

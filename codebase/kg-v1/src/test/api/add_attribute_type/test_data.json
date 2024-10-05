@@ -1,0 +1,45 @@
+{
+  "collection_type": "common_person",
+  "attribute_name": "salary",
+  "attribute_required": false,
+  "attribute_schema": {
+    "dynamic" : {
+    "schema": {
+            "type": "object",
+            "properties": {
+                "atomic": {
+                    "type": "object",
+                    "properties": {
+                        "numeric": {
+                            "type": "object",
+                            "properties": {
+                                "value": {
+                                    "type": "object",
+                                    "properties": {
+                                        "f32": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "required": [
+                                        "f32"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "value"
+                            ]
+                        }
+                    },
+                    "required": [
+                        "numeric"
+                    ]
+                }
+            },
+            "required": [
+                "atomic"
+            ]
+
+    }
+}
+}
+}

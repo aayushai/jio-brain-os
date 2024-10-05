@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: has-entity-api-deployment
+  labels:
+    app: has-entity-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: has-entity-api
+  template:
+    metadata:
+      labels:
+        app: has-entity-api
+    spec:
+      containers:
+      - name: has-entity-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/has_entity_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31011
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: has-entity-service
+spec:
+  selector:
+    app: has-entity-api
+  ports:
+    - name: tcp-port
+      targetPort: 31011
+      port: 31011
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31056
+API_NAME = "metadata_lookup"

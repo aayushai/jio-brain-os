@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-bizid-of-entityid-api-deployment
+  labels:
+    app: get-bizid-of-entityid-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-bizid-of-entityid-api
+  template:
+    metadata:
+      labels:
+        app: get-bizid-of-entityid-api
+    spec:
+      containers:
+      - name: get-bizid-of-entityid-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_bizid_of_entityid_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31032
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-bizid-of-entityid-service
+spec:
+  selector:
+    app: get-bizid-of-entityid-api
+  ports:
+    - name: tcp-port
+      targetPort: 31032
+      port: 31032
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service SearchEntityByContextService {
+    rpc serve(SearchEntityByContextRequest) returns (SearchEntityByContextResponse) {}
+}
+
+message SearchEntityByContextRequest {
+    string entity_type = 1;
+    string keyword = 2;
+    uint32 context_id = 3; 
+}
+
+message SearchEntityByContextResponse {
+    repeated SearchResponse search_response = 1;
+    jio.brain.proto.base.BrainStatus status = 2;
+}
+
+message SearchResponse {
+    uint32 id = 1;
+    string display_name = 2;    
+}

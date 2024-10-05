@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-attribute-api-deployment
+  labels:
+    app: add-attribute-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-attribute-api
+  template:
+    metadata:
+      labels:
+        app: add-attribute-api
+    spec:
+      containers:
+      - name: add-attribute-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/add_attribute_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31024
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-attribute-service
+spec:
+  selector:
+    app: add-attribute-api
+  ports:
+    - name: tcp-port
+      targetPort: 31024
+      port: 31024
+      protocol: TCP
+  type: ClusterIP

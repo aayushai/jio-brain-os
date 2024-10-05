@@ -1,0 +1,55 @@
+2022-03-14 19:47:22,085 - root - DEBUG - request sent from serve method collection_name: "healthcare_entity_type"
+entity_name: "Cough"
+
+2022-03-14 19:47:22,085 - root - DEBUG - Main execute method entered
+2022-03-14 19:47:22,085 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:47:22,085 - root - INFO - Main Preprocessing completed
+2022-03-14 19:47:22,085 - root - DEBUG - Execute method reached
+2022-03-14 19:47:22,085 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:47:22,085 - root - DEBUG - Validation method reached
+2022-03-14 19:47:22,085 - root - INFO - Validation Completed
+2022-03-14 19:47:22,085 - root - INFO - Preprocessing completed
+2022-03-14 19:47:22,086 - root - DEBUG - Execute method reached
+2022-03-14 19:47:22,087 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-03-14 19:47:22,089 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 283
+2022-03-14 19:47:22,089 - root - INFO - Query executed
+2022-03-14 19:47:22,090 - root - INFO - Query executed
+2022-03-14 19:47:22,090 - root - INFO - Main execution completed
+2022-03-14 19:47:22,090 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:47:22,090 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:47:25,737 - root - DEBUG - request sent from serve method collection_name: "healthcare_entity_type"
+entity_name: "Corona"
+
+2022-03-14 19:47:25,737 - root - DEBUG - Main execute method entered
+2022-03-14 19:47:25,737 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:47:25,737 - root - INFO - Main Preprocessing completed
+2022-03-14 19:47:25,737 - root - DEBUG - Execute method reached
+2022-03-14 19:47:25,737 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:47:25,737 - root - DEBUG - Validation method reached
+2022-03-14 19:47:25,737 - root - INFO - Validation Completed
+2022-03-14 19:47:25,738 - root - INFO - Preprocessing completed
+2022-03-14 19:47:25,738 - root - DEBUG - Execute method reached
+2022-03-14 19:47:25,740 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 282
+2022-03-14 19:47:25,740 - root - INFO - Query executed
+2022-03-14 19:47:25,741 - root - INFO - Query executed
+2022-03-14 19:47:25,741 - root - INFO - Main execution completed
+2022-03-14 19:47:25,741 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:47:25,741 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:47:29,370 - root - DEBUG - request sent from serve method collection_name: "healthcare_context_type"
+entity_name: "Age"
+
+2022-03-14 19:47:29,370 - root - DEBUG - Main execute method entered
+2022-03-14 19:47:29,370 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:47:29,370 - root - INFO - Main Preprocessing completed
+2022-03-14 19:47:29,370 - root - DEBUG - Execute method reached
+2022-03-14 19:47:29,370 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:47:29,371 - root - DEBUG - Validation method reached
+2022-03-14 19:47:29,371 - root - INFO - Validation Completed
+2022-03-14 19:47:29,371 - root - INFO - Preprocessing completed
+2022-03-14 19:47:29,371 - root - DEBUG - Execute method reached
+2022-03-14 19:47:29,373 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 280
+2022-03-14 19:47:29,373 - root - INFO - Query executed
+2022-03-14 19:47:29,374 - root - INFO - Query executed
+2022-03-14 19:47:29,374 - root - INFO - Main execution completed
+2022-03-14 19:47:29,374 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:47:29,374 - root - DEBUG - Main postprocessing completed

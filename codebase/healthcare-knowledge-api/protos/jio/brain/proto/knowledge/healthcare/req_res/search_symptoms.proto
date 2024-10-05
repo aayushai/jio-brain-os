@@ -1,0 +1,16 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/search_response.proto";
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message SearchSymptomsRequest {
+    string keyword = 1;
+    repeated uint32 gender = 2;
+    repeated uint32 age = 3;
+}
+
+message SearchSymptomsResponse { 
+    repeated jio.brain.proto.knowledge.healthcare.base.SearchResponse search_response = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

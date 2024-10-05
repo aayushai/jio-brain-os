@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-edge-api-deployment
+  labels:
+    app: get-edge-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-edge-api
+  template:
+    metadata:
+      labels:
+        app: get-edge-api
+    spec:
+      containers:
+      - name: get-edge-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_edge_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31044
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-edge-service
+spec:
+  selector:
+    app: get-edge-api
+  ports:
+    - name: tcp-port
+      targetPort: 31044
+      port: 31044
+      protocol: TCP
+  type: ClusterIP

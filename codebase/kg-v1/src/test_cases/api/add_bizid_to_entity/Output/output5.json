@@ -1,0 +1,11 @@
+{
+  "status": {
+    "brainStatusInstance": [
+      {
+        "parameters": {
+          "INVALID_INPUT": "Primary BizID cannot be deleted"
+        }
+      }
+    ]
+  }
+}

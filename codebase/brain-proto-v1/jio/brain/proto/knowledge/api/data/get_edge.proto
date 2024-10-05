@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "google/protobuf/struct.proto";
+
+service GetEdgeService {
+    rpc serve(GetEdgeRequest) returns (GetEdgeResponse) {}
+}
+
+message GetEdgeRequest {
+    string edge_collection = 1; // is_a, has_attribute, has_value
+    uint32 from_id = 2; // 123
+    uint32 to_id = 3; // 456
+}
+
+message GetEdgeResponse {
+    google.protobuf.Struct edge = 1;
+    jio.brain.proto.base.BrainStatus status = 2;
+}

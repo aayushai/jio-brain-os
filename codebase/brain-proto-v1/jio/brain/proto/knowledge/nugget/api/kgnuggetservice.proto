@@ -1,0 +1,64 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.nugget;
+
+import "jio/brain/proto/knowledge/nugget/req_res/add_entity_instance.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/delete_entity_instance.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/add_biz_ids_to_entity_instance.proto";
+
+import "jio/brain/proto/knowledge/nugget/req_res/set_attribute_of_entity.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_attribute_of_entity.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_entities_by_attribute.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_attribute_values_by_entity_qualifier_filter.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_qualifer_values_by_entity_attribute_filter.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_absolute_attributes_of_entity_instance.proto";
+
+import "jio/brain/proto/knowledge/nugget/req_res/add_predicate_instance.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_predicate_instances.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/delete_predicate_instance_by_id.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/delete_predicate_instances.proto";
+import "jio/brain/proto/knowledge/nugget/req_res/get_object_ids_for_subject_and_predicate.proto";
+
+service KnowledgeNuggetService { 
+    
+    /* Adding an entity instance of an entity type */
+    rpc AddEntityInstance(AddEntityInstanceRequest) returns (AddEntityInstanceResponse){}
+
+    /* Deleting an entity instance of an entity type */
+    rpc DeleteEntityInstance(DeleteEntityInstanceRequest) returns (DeleteEntityInstanceResponse){}
+
+    /* Adding additional alternative business ID to an entity instance */
+    rpc AddBizIDsToEntityInstance(AddBizIDsToEntityInstanceRequest) returns (AddBizIDsToEntityInstanceResponse){}
+    
+    /* Set value of an attribute for a certain qualifier value combinations for an entity */
+    rpc SetAttributeOfEntity(SetAttributeOfEntityRequest) returns (SetAttributeOfEntityResponse){}
+
+    /* Get the value of an attribute for a certain qualifier value combinations for an entity instance */
+    rpc GetAttributeOfEntity(GetAttributeOfEntityRequest) returns (GetAttributeOfEntityResponse){}
+
+    /* Get the list of all entities that satisfy certain attribute-qualifier condition */
+    rpc GetEntitiesByAttribute(GetEntitiesByAttributeRequest) returns (GetEntitiesByAttributeResponse){}
+
+    /* Get the attribute name an value map for a given entity instance following a qualifier condition */
+    rpc GetAttributeValuesByEntityQualifierFilter(GetAttributeValuesByEntityQualifierFilterRequest) returns (GetAttributeValuesByEntityQualifierFilterResponse){}
+    
+    /* Get the qualifier name an value map for a given entity instance following a attribute condition */
+    rpc GetQualifierValuesByEntityAttributeFilter(GetQualifierValuesByEntityAttributeFilterRequest) returns (GetQualifierValuesByEntityAttributeFilterResponse){}
+
+    /* Get the attribute name and value for set for request absolute attributes of a given entity instance */
+    rpc GetAbsoluteAttributesOfEntityInstance(GetAbsoluteAttributesOfEntityInstanceRequest) returns (GetAbsoluteAttributesOfEntityInstanceResponse){}
+    
+    /* Add a predicate instance between two entity instances */
+    rpc AddPredicateInstance(AddPredicateInstanceRequest) returns (AddPredicateInstanceResponse){}
+    
+    /* Get a predicate between given subject and object instance */
+    rpc GetPredicateInstances(GetPredicateInstancesRequest) returns (GetPredicateInstancesResponse){}
+    
+    /* Delete predicate given and predicate instance ID */
+    rpc DeletePredicateInstanceById(DeletePredicateInstanceByIdRequest) returns (DeletePredicateInstanceByIdResponse){}
+    
+    /* Delete Predicate Instances given subject ID, Object ID & Predicate Name */    
+    rpc DeletePredicateInstances(DeletePredicateInstancesRequest) returns (DeletePredicateInstancesResponse){}
+       
+    /* Get Object IDs for a given Subject, Predicate & Qualifier Condition */ 
+    rpc GetObjectIdsForSubjectAndPredicate(GetObjectIdsForSubjectAndPredicateRequest) returns (GetObjectIdsForSubjectAndPredicateResponse){}
+}

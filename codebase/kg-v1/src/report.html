@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <link href="assets/style.css" rel="stylesheet" type="text/css"/></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++)
+        filterItems[i].hidden = false;
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>report.html</h1>
+    <p>Report generated on 12-Jan-2022 at 14:36:01 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>C:\Program Files\Java\jdk-11.0.12</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "1.0.0", "py": "1.11.0", "pytest": "6.2.5"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Windows-10-10.0.22000-SP0</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"cov": "3.0.0", "html": "3.1.1", "metadata": "1.11.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.9.7</td></tr></table>
+    <h2>Summary</h2>
+    <p>9 tests ran in 2.52 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">9 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list0]</td>
+          <td class="col-duration">0.57</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[[{&#x27;_key&#x27;: &#x27;1786700&#x27;, &#x27;_id&#x27;: &#x27;common_celeb1/1786700&#x27;, &#x27;_rev&#x27;: &#x27;_df5XNuC---&#x27;, &#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}]]
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}, &#x27;enrichAttributeResponse&#x27;: {&#x27;entityIdAttribute&#x27;: {&#x27;common_person123&#x27;: {&#x27;attributeValue&#x27;: {&#x27;12345869012&#x27;: {&#x27;attributeValue&#x27;: {&#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}, &#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;SRK&#x27;}}}}}}, &#x27;123458690121&#x27;: {&#x27;attributeValue&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;SRK&#x27;}}}}, &#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}}}}}}}, &#x27;enrichPredicateResponse&#x27;: {&#x27;subjectPredicate&#x27;: {&#x27;common_politician&#x27;: {&#x27;entityIdPredicate&#x27;: {&#x27;1786469&#x27;: {&#x27;predicateValue&#x27;: {&#x27;is_a&#x27;: {&#x27;entity&#x27;: {&#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}}}}}}}}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person123&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;name&quot;
+  attributes: &quot;salary&quot;
+}
+enrich_predicate_request {
+  type: &quot;common_politician&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_a&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:227 Starting new HTTP connection (1): 127.0.0.1:8529
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 307
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 307
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 623
+INFO     root:query_handler.py:110 Query executed
+DEBUG    root:req_res_handler.py:122 Postprocessing method reached
+INFO     root:query_handler.py:124 Query executed
+INFO     root:req_res_handler.py:37 Preprocessing completed.Measurement generated from preprocessing
+DEBUG    urllib3.connectionpool:connectionpool.py:227 Starting new HTTP connection (1): localhost:8086
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;POST /query?q=CREATE+DATABASE+%22common%22 HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%2712345869012%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%27123458690121%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    root:req_res_handler.py:91 Postprocessing method of InfluxDb entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered
+DEBUG    root:req_res_handler.py:143 Main postprocessing completed<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list1]</td>
+          <td class="col-duration">0.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[]
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}, &#x27;enrichAttributeResponse&#x27;: {&#x27;entityIdAttribute&#x27;: {&#x27;common_person123&#x27;: {&#x27;attributeValue&#x27;: {&#x27;12345869012&#x27;: {&#x27;attributeValue&#x27;: {&#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}, &#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;SRK&#x27;}}}}}}, &#x27;123458690121&#x27;: {&#x27;attributeValue&#x27;: {&#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}, &#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;SRK&#x27;}}}}}}}}}}, &#x27;enrichPredicateResponse&#x27;: {}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person123&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;name&quot;
+  attributes: &quot;salary&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 308
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 307
+INFO     root:query_handler.py:110 Query executed
+DEBUG    root:req_res_handler.py:122 Postprocessing method reached
+INFO     root:query_handler.py:124 Query executed
+INFO     root:req_res_handler.py:37 Preprocessing completed.Measurement generated from preprocessing
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;POST /query?q=CREATE+DATABASE+%22common%22&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%2712345869012%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%27123458690121%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    root:req_res_handler.py:91 Postprocessing method of InfluxDb entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered
+DEBUG    root:req_res_handler.py:143 Main postprocessing completed<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list2]</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[[{&#x27;_key&#x27;: &#x27;1786700&#x27;, &#x27;_id&#x27;: &#x27;common_celeb1/1786700&#x27;, &#x27;_rev&#x27;: &#x27;_df5XNuC---&#x27;, &#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}]]
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}, &#x27;enrichAttributeResponse&#x27;: {}, &#x27;enrichPredicateResponse&#x27;: {&#x27;subjectPredicate&#x27;: {&#x27;common_politician&#x27;: {&#x27;entityIdPredicate&#x27;: {&#x27;1786469&#x27;: {&#x27;predicateValue&#x27;: {&#x27;is_a&#x27;: {&#x27;entity&#x27;: {&#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}, &#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}}}}}}}}}}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_predicate_request {
+  type: &quot;common_politician&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_a&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 623
+INFO     root:query_handler.py:110 Query executed
+DEBUG    root:req_res_handler.py:122 Postprocessing method reached
+INFO     root:query_handler.py:124 Query executed
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered
+DEBUG    root:req_res_handler.py:143 Main postprocessing completed<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list3]</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;, &#x27;NO_ERROR&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;NO_ERROR&#x27;: &#x27;no error&#x27;, &#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method 
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list4]</td>
+          <td class="col-duration">0.02</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{&#x27;status&#x27;: {&#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;Check for the Entity Type.&#x27;, &#x27;NO_ERROR&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;NO_ERROR&#x27;: &#x27;no error&#x27;, &#x27;msg&#x27;: &#x27;Check for the Entity Type.&#x27;}}]}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person1234&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;name&quot;
+  attributes: &quot;salary&quot;
+}
+enrich_predicate_request {
+  type: &quot;common_politician&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_a&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+ERROR    root:query_handler.py:27 {&#x27;is_ok&#x27;: False, &#x27;brain_status_instance&#x27;: [{&#x27;status_code&#x27;: 0, &#x27;parameters&#x27;: {&#x27;NO_ERROR&#x27;: &#x27;no error&#x27;, &#x27;msg&#x27;: &#x27;Check for the Entity Type.&#x27;}}]}
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list5]</td>
+          <td class="col-duration">0.09</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[[{&#x27;_key&#x27;: &#x27;1786700&#x27;, &#x27;_id&#x27;: &#x27;common_celeb1/1786700&#x27;, &#x27;_rev&#x27;: &#x27;_df5XNuC---&#x27;, &#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}]]
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}, &#x27;enrichAttributeResponse&#x27;: {&#x27;entityIdAttribute&#x27;: {&#x27;common_person123&#x27;: {}}}, &#x27;enrichPredicateResponse&#x27;: {&#x27;subjectPredicate&#x27;: {&#x27;common_politician&#x27;: {&#x27;entityIdPredicate&#x27;: {&#x27;1786469&#x27;: {&#x27;predicateValue&#x27;: {&#x27;is_a&#x27;: {&#x27;entity&#x27;: {&#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}}}}}}}}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person123&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;named&quot;
+  attributes: &quot;salary&quot;
+}
+enrich_predicate_request {
+  type: &quot;common_politician&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_a&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 623
+INFO     root:query_handler.py:110 Query executed
+DEBUG    root:req_res_handler.py:122 Postprocessing method reached
+INFO     root:query_handler.py:124 Query executed
+INFO     root:req_res_handler.py:37 Preprocessing completed.Measurement generated from preprocessing
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;POST /query?q=CREATE+DATABASE+%22common%22&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+named+from+common_person123_named+WHERE+unified_id+%3D%2712345869012%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%2712345869012%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+named+from+common_person123_named+WHERE+unified_id+%3D%27123458690121%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%27123458690121%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    root:req_res_handler.py:91 Postprocessing method of InfluxDb entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered
+DEBUG    root:req_res_handler.py:143 Main postprocessing completed<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list6]</td>
+          <td class="col-duration">0.07</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[&#x27;Data Not Available&#x27;]
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}, &#x27;enrichAttributeResponse&#x27;: {&#x27;entityIdAttribute&#x27;: {&#x27;common_person123&#x27;: {&#x27;attributeValue&#x27;: {&#x27;12345869012&#x27;: {&#x27;attributeValue&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;SRK&#x27;}}}}, &#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}}}, &#x27;123458690121&#x27;: {&#x27;attributeValue&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;SRK&#x27;}}}}, &#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}}}}}}}, &#x27;enrichPredicateResponse&#x27;: {}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person123&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;name&quot;
+  attributes: &quot;salary&quot;
+}
+enrich_predicate_request {
+  type: &quot;common_politicians&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_a&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 308
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 307
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 263
+INFO     root:query_handler.py:110 Query executed
+DEBUG    root:req_res_handler.py:122 Postprocessing method reached
+INFO     root:query_handler.py:124 Query executed
+INFO     root:req_res_handler.py:37 Preprocessing completed.Measurement generated from preprocessing
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;POST /query?q=CREATE+DATABASE+%22common%22&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%2712345869012%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%27123458690121%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    root:req_res_handler.py:91 Postprocessing method of InfluxDb entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered
+DEBUG    root:req_res_handler.py:143 Main postprocessing completed<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list7]</td>
+          <td class="col-duration">0.05</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>{&#x27;status&#x27;: {&#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;DB error [HTTP 404][ERR 1203] AQL: collection or view not found: is_at (while parsing)&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;DB error [HTTP 404][ERR 1203] AQL: collection or view not found: is_at (while parsing)&#x27;}}]}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person123&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;name&quot;
+  attributes: &quot;salary&quot;
+}
+enrich_predicate_request {
+  type: &quot;common_politician&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_at&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 308
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 308
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 404 115
+ERROR    root:query_handler.py:106 [HTTP 404][ERR 1203] AQL: collection or view not found: is_at (while parsing)
+INFO     root:query_handler.py:110 Query executed
+ERROR    root:query_handler.py:121 {&#x27;is_ok&#x27;: False, &#x27;brain_status_instance&#x27;: [{&#x27;status_code&#x27;: 0, &#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;DB error [HTTP 404][ERR 1203] AQL: collection or view not found: is_at (while parsing)&#x27;}}]}
+ERROR    root:query_handler.py:40 {&#x27;is_ok&#x27;: False, &#x27;brain_status_instance&#x27;: [{&#x27;status_code&#x27;: 0, &#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;DB error [HTTP 404][ERR 1203] AQL: collection or view not found: is_at (while parsing)&#x27;}}]}
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">test_cases/test_pytest.py::test_enrich_api_api[io_list8]</td>
+          <td class="col-duration">0.10</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>[[{&#x27;_key&#x27;: &#x27;1786700&#x27;, &#x27;_id&#x27;: &#x27;common_celeb1/1786700&#x27;, &#x27;_rev&#x27;: &#x27;_df5XNuC---&#x27;, &#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}]]
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}}
+{&#x27;status&#x27;: {&#x27;isOk&#x27;: True, &#x27;brainStatusInstance&#x27;: [{&#x27;parameters&#x27;: {&#x27;msg&#x27;: &#x27;no error&#x27;}}]}, &#x27;enrichAttributeResponse&#x27;: {&#x27;entityIdAttribute&#x27;: {&#x27;common_person123&#x27;: {&#x27;attributeValue&#x27;: {&#x27;123458690121&#x27;: {&#x27;attributeValue&#x27;: {&#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}}}, &#x27;12345869012&#x27;: {&#x27;attributeValue&#x27;: {&#x27;salary&#x27;: {&#x27;atomic&#x27;: {&#x27;numeric&#x27;: {&#x27;value&#x27;: {&#x27;u32&#x27;: 10000}}}}}}}}}}, &#x27;enrichPredicateResponse&#x27;: {&#x27;subjectPredicate&#x27;: {&#x27;common_politician&#x27;: {&#x27;entityIdPredicate&#x27;: {&#x27;1786469&#x27;: {&#x27;predicateValue&#x27;: {&#x27;is_a&#x27;: {&#x27;entity&#x27;: {&#x27;entityType&#x27;: &#x27;common_celeb1&#x27;, &#x27;bizId&#x27;: [{&#x27;type&#x27;: &#x27;celeb_id&#x27;, &#x27;value&#x27;: &#x27;C12&#x27;}], &#x27;name&#x27;: {&#x27;english&#x27;: {&#x27;canonical&#x27;: &#x27;celeb1&#x27;, &#x27;aliases&#x27;: {&#x27;element&#x27;: {&#x27;celeb&#x27;: True}}}}, &#x27;attributes&#x27;: {&#x27;name&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;Modiji&#x27;}}}}, &#x27;industry&#x27;: {&#x27;atomic&#x27;: {&#x27;symbolic&#x27;: {&#x27;value&#x27;: {&#x27;str&#x27;: &#x27;political&#x27;}}}}}}}}}}}}}}
+<br/> -------------------------------Captured log call-------------------------------- <br/>DEBUG    root:server.py:23 request sent from serve method enrich_attribute_request {
+  type: &quot;common_person123&quot;
+  entity_ids: &quot;12345869012&quot;
+  entity_ids: &quot;123458690121&quot;
+  attributes: &quot;salary&quot;
+}
+enrich_predicate_request {
+  type: &quot;common_politician&quot;
+  entity_ids: &quot;1786469&quot;
+  predicates: &quot;is_a&quot;
+}
+
+DEBUG    root:query_handler.py:22 Main execute method entered
+DEBUG    root:req_res_handler.py:18 Main preprocessing method entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:req_res_handler.py:84 Main Preprocessing completed
+DEBUG    root:query_handler.py:114 Execute method reached
+DEBUG    root:req_res_handler.py:6 Preprocessing method reached
+INFO     root:req_res_handler.py:42 Preprocessing completed
+DEBUG    root:query_handler.py:14 Execute method reached
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://127.0.0.1:8529 &quot;POST /_db/knowledge_db/_api/cursor HTTP/1.1&quot; 201 623
+INFO     root:query_handler.py:110 Query executed
+DEBUG    root:req_res_handler.py:122 Postprocessing method reached
+INFO     root:query_handler.py:124 Query executed
+INFO     root:req_res_handler.py:37 Preprocessing completed.Measurement generated from preprocessing
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;POST /query?q=CREATE+DATABASE+%22common%22&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%2712345869012%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    urllib3.connectionpool:connectionpool.py:452 http://localhost:8086 &quot;GET /query?q=select+salary+from+common_person123_salary+WHERE+unified_id+%3D%27123458690121%27&amp;db=common HTTP/1.1&quot; 200 None
+DEBUG    root:req_res_handler.py:91 Postprocessing method of InfluxDb entered
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+DEBUG    root:metadata_lookup.py:8 get_metadata() reached
+INFO     root:metadata_lookup.py:21 fetched metadata
+INFO     root:query_handler.py:73 Main execution completed
+DEBUG    root:req_res_handler.py:130 Main postprocessing method entered
+DEBUG    root:req_res_handler.py:143 Main postprocessing completed<br/></div></td></tr></tbody></table></body></html>

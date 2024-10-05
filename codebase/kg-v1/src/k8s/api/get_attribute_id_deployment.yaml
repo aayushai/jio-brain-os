@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-attribute-id-api-deployment
+  labels:
+    app: get-attribute-id-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-attribute-id-api
+  template:
+    metadata:
+      labels:
+        app: get-attribute-id-api
+    spec:
+      containers:
+      - name: get-attribute-id-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_attribute_id_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31046
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-attribute-id-service
+spec:
+  selector:
+    app: get-attribute-id-api
+  ports:
+    - name: tcp-port
+      targetPort: 31046
+      port: 31046
+      protocol: TCP
+  type: ClusterIP

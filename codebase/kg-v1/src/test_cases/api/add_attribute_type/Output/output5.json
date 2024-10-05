@@ -1,0 +1,13 @@
+
+{
+  "status": {
+    "isOk": true,
+    "brainStatusInstance": [
+      { "status_code": "KNOWLEDGE_GRAPH_Attribute_ALREADY_EXISTS",
+        "parameters": {
+          "msg": "Attribute already exists"
+        }
+      }
+    ]
+  }
+}

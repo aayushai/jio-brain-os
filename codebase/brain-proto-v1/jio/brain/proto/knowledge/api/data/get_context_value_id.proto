@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service GetContextValueIdService {
+  rpc serve(GetContextValueIdRequest) returns (GetContextValueIdResponse) {}
+}
+
+message GetContextValueIdRequest {
+  string context_value_name = 1;
+}
+
+message GetContextValueIdResponse {
+  uint32 context_id = 1;
+  uint32 value_id = 2;
+  jio.brain.proto.base.BrainStatus status = 3;
+}
+

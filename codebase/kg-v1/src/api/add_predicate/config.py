@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT= 31008 
+API_NAME = "add_predicate"

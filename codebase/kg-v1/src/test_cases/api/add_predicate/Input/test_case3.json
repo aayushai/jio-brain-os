@@ -1,0 +1,18 @@
+{  
+    "predicate": {
+     "predicate_name": "",
+     "attributes": {
+           "ownership_duration": {
+            "atomic": {
+              "numeric": {
+                "value": {
+                  "u32": 4
+                }
+              }
+            }
+          }
+     }
+     },
+     "from_entity_id": "agriculture_crop/20000064",
+     "to_entity_id": "agriculture_farm/20000063"
+  }

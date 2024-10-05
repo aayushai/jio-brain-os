@@ -1,0 +1,18 @@
+2022-04-07 11:23:14,253 - root - DEBUG - request sent from serve method context_value_name: "Gender|Male"
+
+2022-04-07 11:23:14,254 - root - DEBUG - Main execute method entered
+2022-04-07 11:23:14,254 - root - DEBUG - Main preprocessing method entered
+2022-04-07 11:23:14,254 - root - INFO - Main Preprocessing completed
+2022-04-07 11:23:14,254 - root - DEBUG - Execute method reached
+2022-04-07 11:23:14,254 - root - DEBUG - Preprocessing method reached
+2022-04-07 11:23:14,254 - root - DEBUG - Validation method reached
+2022-04-07 11:23:14,254 - root - INFO - Validation Completed
+2022-04-07 11:23:14,254 - root - INFO - Preprocessing completed
+2022-04-07 11:23:14,254 - root - DEBUG - Execute method reached
+2022-04-07 11:23:14,256 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-04-07 11:23:14,263 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 296
+2022-04-07 11:23:14,263 - root - INFO - Query executed
+2022-04-07 11:23:14,263 - root - INFO - Query executed
+2022-04-07 11:23:14,263 - root - INFO - Main execution completed
+2022-04-07 11:23:14,263 - root - DEBUG - Main postprocessing method entered
+2022-04-07 11:23:14,264 - root - DEBUG - Main postprocessing completed

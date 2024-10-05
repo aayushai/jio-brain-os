@@ -1,0 +1,22 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/knowledge/base/language.proto";
+import "jio/brain/proto/base/status.proto";
+
+service DeleteEntityAliasService {
+  rpc serve(DeleteEntityAliasRequest) returns (DeleteEntityAliasResponse) {}
+}
+
+message DeleteEntityAliasRequest {
+  string entity_id = 1;
+  string alias = 2;
+  jio.brain.proto.knowledge.base.Language language = 3;
+}
+
+message DeleteEntityAliasResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+}

@@ -1,0 +1,3 @@
+API_NAME = "add_entity_alias"
+MAX_WORKERS=5
+SERVER_PORT=50074

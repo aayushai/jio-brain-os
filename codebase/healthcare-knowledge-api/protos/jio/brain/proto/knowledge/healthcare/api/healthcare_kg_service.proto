@@ -1,0 +1,241 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/req_res/get_all_disease.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_disease.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_disease_given_symptom.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_symptom_given_disease.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_all_symptom.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_symptom.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_value.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_order.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_name.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_id.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_symptom_bucket_in_disease.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_highest_attribute_bucket.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_bucket_in_disease.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_value_id.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attributes_of_symptom_and_disease.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_disease_id.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_symptom_id.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_context.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_context_id.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_context_value_id.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/search_symptoms.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/search_diseases.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_symptom_patient_state.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_disease_patient_state.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_valid_symptom_attribute_values_given_filter.proto";
+
+import "jio/brain/proto/knowledge/healthcare/req_res/get_symptom_name.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_disease_name.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_context_name.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_attribute_value_name.proto";
+import "jio/brain/proto/knowledge/healthcare/req_res/get_context_value_name.proto";
+
+/* Healthcare Knowledge API Service is meant to provide a wrapper
+over the Domain Agnostic KG Services. Each of the RPC Call inside this
+service represents one Healthcare Product API. */
+
+service HealthcareKnowledgeApiService { 
+
+    /** Returns list of dictionaries with disease names and ids
+    Usage: 
+        •	Create the automated testcases for each disease
+        •	Diseases search API for auto-suggest
+    */
+    rpc GetAllDisease(GetAllDiseaseRequest) returns (GetAllDiseaseResponse) {} 
+
+    /** Returns the disease information (name, display name, severity)
+        Usage:
+            •	To fill the disease state with name, display, severity and send to UI
+            •	Create disease state in feedback
+    */
+    rpc GetDisease(GetDiseaseRequest) returns (GetDiseaseResponse) {}
+
+    /** Returns the intersection set of disease ids that are mapped to all the symptoms
+        Usage:
+            •	to get the candidate diseases
+            •	symptom score calculator
+    */
+    rpc GetDiseaseGivenSymptom(GetDiseaseGivenSymptomRequest) returns (GetDiseaseGivenSymptomResponse) {} 
+    
+    /** Returns the disease id 
+        Usage:
+            •	Internal for KG creation
+    */
+    rpc GetDiseaseId(GetDiseaseIdRequest) returns (GetDiseaseIdResponse) {}
+
+    /** Returns list of dictionaries with symptom names, ids and display name
+        Usage: 
+            •	Symptom search API for auto-suggest
+    */
+    rpc GetAllSymptom(GetAllSymptomRequest) returns (GetAllSymptomResponse) {}
+
+    /** Returns the symptom information (name, display name, query, attributes, etc.)
+        Usage: 
+            •	Used in dialogue flow layer, convergence criteria, algo, feedback service, language layer, triage report layer to get name, display name, attributes, query, etc.
+    */
+    rpc GetSymptom(GetSymptomRequest) returns (GetSymptomResponse) {} 
+
+    /** Returns union set of symptoms that are mapped to given diseases
+        Usage: 
+            •	Algo, convergence criteria, etc.
+    */
+    rpc GetSymptomGivenDisease(GetSymptomGivenDiseaseRequest) returns (GetSymptomGivenDiseaseResponse) {} 
+
+    /** Returns the bucket between disease and symptom
+        Usage: 
+            •	disease_prediction, question_prediction, convergence, etc
+    */
+    rpc GetSymptomBucketInDisease(GetSymptomBucketInDiseaseRequest) returns (GetSymptomBucketInDiseaseResponse) {}
+    
+     /** Returns the symptom id 
+        Usage: 
+            •	Symptom search API for auto-suggest
+    */
+    rpc GetSymptomId(GetSymptomIdRequest) returns (GetSymptomIdResponse) {}
+
+    /** Returns the attribute information (name, query, values, multiselect, order, etc.)
+        Usage:
+            •	Language layer, Feedback layer
+    */   
+    rpc GetAttribute(GetAttributeRequest) returns (GetAttributeResponse) {}
+
+    /** Returns the attribute value information (name, query, order, mapped diseases)
+        Usage: 
+            •	Dialogue state log, Triage report, Feedback service
+    */
+    rpc GetAttributeValue(GetAttributeValueRequest) returns (GetAttributeValueResponse) {}
+
+    /** Returns the display order of given symptom and attribute
+        Usage:
+            •	Question generation
+    */
+    rpc GetAttributeOrder(GetAttributeOrderRequest) returns (GetAttributeOrderResponse) {}
+
+    /** Returns the attribute name
+        Usage:
+            •	triage_report, attribute_mismatch_decay
+    */
+    rpc GetAttributeName(GetAttributeNameRequest) returns (GetAttributeNameResponse) {}    
+
+    /** Returns the attribute id for given symptom attribute name
+        Usage:
+            •	Testcases generation
+    */
+    rpc GetAttributeId(GetAttributeIdRequest) returns (GetAttributeIdResponse) {}
+
+    /** Returns the symptom_id, attribute_id, value_id for the given attribute value name
+        Usage: 
+            •	Testcases
+    */
+    rpc GetAttributeValueId(GetAttributeValueIdRequest) returns (GetAttributeValueIdResponse) {}
+    
+    /** Returns the highest bucket between symptoms and attributes across the knowledge
+        Usage: 
+            •	Disease prediction algo
+    */
+    rpc GetHighestAttributeBucket(GetHighestAttributeBucketRequest) returns (GetHighestAttributeBucketResponse) {}
+    
+    /** Returns the bucket between given symptom and attribute for the given disease
+        Usage: 
+            •	Disease prediction, triage report
+    */
+    rpc GetAttributeBucketInDisease(GetAttributeBucketInDiseaseRequest) returns (GetAttributeBucketInDiseaseResponse) {}
+    
+    /** Returns the attributes and its values that are mapped to given symptom and disease ids
+        Usage: 
+            •	Question prediction
+    */
+    rpc GetAttributesOfSymptomAndDisease(GetAttributesOfSymptomAndDiseaseRequest) returns 
+    (GetAttributesOfSymptomAndDiseaseResponse){}
+
+    /** Returns the context information (name, query, values)
+        Usage: 
+            •	Question prediction
+            •	Update patient state for age/gender
+            •	Language layer for patient request synthesis
+    */
+    rpc GetContext(GetContextRequest) returns (GetContextResponse) {}  
+
+    /** Returns the context id
+        Usage: 
+            •	Ask gender/age in Question prediction
+    */
+    rpc GetContextId(GetContextIdRequest) returns (GetContextIdResponse) {}  
+
+    /** Returns context_id and value_id for the given context_value_name
+        Usage: 
+            •	Testcases
+    */
+    rpc GetContextValueId(GetContextValueIdRequest) returns (GetContextValueIdResponse) {}    
+    
+    /** Returns the applicable age and gender for the given symptom
+        Usage: 
+            •	Question generation
+    */
+    rpc GetSymptomPatientState(GetSymptomPatientStateRequest) returns (GetSymptomPatientStateResponse){}
+    
+    /** Returns the applicable age and gender for the given disease
+        Usage: 
+            •	Disease prediction
+    */
+    rpc GetDiseasePatientState(GetDiseasePatientStateRequest) returns (GetDiseasePatientStateResponse){}
+
+    /** Takes a search keyword and a filter object (gender & age) and returns the list of valid symptoms
+        Usage: 
+            •	Symptom search API for auto-suggest
+    */
+    rpc SearchSymptoms(SearchSymptomsRequest) returns (SearchSymptomsResponse){}
+
+    /** Takes a search keyword and a filter object (gender & age) and returns the list of valid diseases
+        Usage: 
+            •	Disease search API for auto-suggest
+    */
+    rpc SearchDiseases(SearchDiseasesRequest) returns (SearchDiseasesResponse){}
+
+    /** Returns the list of symptom attribute values applicable for the given age and gender
+        Usage: 
+            •	Attribute request synthesis in dialogue flow
+    */
+    rpc GetValidSymptomAttributeValuesGivenFilter(GetValidSymptomAttributeValuesGivenFilterRequest) returns (GetValidSymptomAttributeValuesGivenFilterResponse){}
+
+    /** Returns the disease name for the given disease id 
+        Usage: 
+            •	Used at the diagnosis convergence to show the disease names
+            •	To fill the disease state with its name and send to UI
+            •	Create disease state with its name in the feedback
+    
+    */
+    rpc GetDiseaseName(GetDiseaseNameRequest) returns (GetDiseaseNameResponse) {} 
+
+    /** Returns the symptom name for the given symptom id 
+        Usage: 
+            •	Used in dialogue flow layer, convergence criteria, algo, feedback service, language layer, triage report layer to get the symptom name
+    
+    */
+    rpc GetSymptomName(GetSymptomNameRequest) returns (GetSymptomNameResponse) {} 
+
+    /** Returns the attribute value name for the given symptom id, attribute id and value id 
+        Usage: 
+            •	Dialogue state log, Triage report, Feedback service
+    
+    */
+    rpc GetAttributeValueName(GetAttributeValueNameRequest) returns (GetAttributeValueNameResponse) {}
+
+    /** Returns the context name for the given context id 
+        Usage: 
+            •	Update patient state for age/gender
+            •	Language layer for patient request synthesis
+    */
+    rpc GetContextName(GetContextNameRequest) returns (GetContextNameResponse) {} 
+
+    /** Returns the context value name for the given context id and context value id 
+        Usage: 
+            •	Update patient state for age/gender
+            •	Language layer for patient request synthesis
+    */
+    rpc GetContextValueName(GetContextValueNameRequest) returns (GetContextValueNameResponse) {}
+}

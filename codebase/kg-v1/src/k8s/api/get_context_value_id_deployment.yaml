@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-context-value-id-api-deployment
+  labels:
+    app: get-context-value-id-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-context-value-id-api
+  template:
+    metadata:
+      labels:
+        app: get-context-value-id-api
+    spec:
+      containers:
+      - name: get-context-value-id-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_context_value_id_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31047
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-context-value-id-service
+spec:
+  selector:
+    app: get-context-value-id-api
+  ports:
+    - name: tcp-port
+      targetPort: 31047
+      port: 31047
+      protocol: TCP
+  type: ClusterIP

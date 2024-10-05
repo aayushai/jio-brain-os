@@ -1,0 +1,8 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+message SearchResponse {
+    uint32 id = 1;
+    string display_name = 2;
+}
+

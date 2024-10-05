@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service GetAttributeOfEntityService {
+  rpc serve(GetAttributeOfEntityRequest) returns (GetAttributeOfEntityResponse) {}
+}
+
+message GetAttributeOfEntityRequest {
+  string domain_name = 1;
+  string entity_type = 2;
+  string attribute_name = 3;
+  uint32 entity_id = 4;
+  string qualifier_condition = 5;
+}
+
+message GetAttributeOfEntityResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  repeated AttributeValueRowResponse attribute_value_rows = 2;
+}
+
+message AttributeValueRowResponse {
+  repeated ValuePairs value_pairs = 1;
+}
+
+message ValuePairs {
+  string key = 1;
+  float value = 2;
+}
+

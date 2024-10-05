@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-attribute-value-api-deployment
+  labels:
+    app: get-attribute-value-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-attribute-value-api
+  template:
+    metadata:
+      labels:
+        app: get-attribute-value-api
+    spec:
+      containers:
+      - name: get-attribute-value-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_attribute_value_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31045
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-attribute-value-service
+spec:
+  selector:
+    app: get-attribute-value-api
+  ports:
+    - name: tcp-port
+      targetPort: 31045
+      port: 31045
+      protocol: TCP
+  type: ClusterIP

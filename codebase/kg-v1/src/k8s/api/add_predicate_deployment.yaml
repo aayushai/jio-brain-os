@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-predicate-api-deployment
+  labels:
+    app: add-predicate-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-predicate-api
+  template:
+    metadata:
+      labels:
+        app: add-predicate-api
+    spec:
+      containers:
+      - name: add-predicate-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/add_predicate_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31008
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-predicate-service
+spec:
+  selector:
+    app: add-predicate-api
+  ports:
+    - name: tcp-port
+      targetPort: 31008
+      port: 31008
+      protocol: TCP
+  type: ClusterIP

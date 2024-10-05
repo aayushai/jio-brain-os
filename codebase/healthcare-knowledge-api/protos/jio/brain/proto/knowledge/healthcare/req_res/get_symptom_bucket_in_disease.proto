@@ -1,0 +1,14 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message GetSymptomBucketInDiseaseRequest {
+    uint32 disease_id = 1;
+    uint32 symptom_id = 2;
+}
+
+message GetSymptomBucketInDiseaseResponse {
+	uint32 bucket = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

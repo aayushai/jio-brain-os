@@ -1,0 +1,13 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+import "jio/brain/proto/knowledge/healthcare/base/attribute.proto";
+
+message Symptom {
+    uint32 id = 1;
+    string entity_type = 2;
+    string name = 3;
+    string display_name = 4;
+    string query = 5;
+    repeated Attribute attributes = 6;
+}

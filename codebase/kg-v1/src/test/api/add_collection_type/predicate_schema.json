@@ -1,0 +1,161 @@
+{
+  "message": "Schema validation failed",
+  "level": "strict",
+  "rule": {
+    "type": "object",
+    "properties": {
+      "predicate_name": {
+        "type": "string"
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "call_duration": {
+            "type": "object",
+            "properties": {
+              "numeric": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "uint32Value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "uint32Value"
+                ]
+              }
+            },
+            "required": [
+              "numeric"
+            ]
+          },
+          "call_start_time": {
+            "type": "object",
+            "properties": {
+              "numeric": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "uint32Value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "uint32Value"
+                ]
+              }
+            },
+            "required": [
+              "numeric"
+            ]
+          },
+          "call_end_time": {
+            "type": "object",
+            "properties": {
+              "numeric": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "uint32Value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "uint32Value"
+                ]
+              }
+            },
+            "required": [
+              "numeric"
+            ]
+          },
+          "cell_id_1": {
+            "type": "object",
+            "properties": {
+              "numeric": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "uint32Value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "uint32Value"
+                ]
+              }
+            },
+            "required": [
+              "numeric"
+            ]
+          },
+          "cell_id_2": {
+            "type": "object",
+            "properties": {
+              "numeric": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "uint32Value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "uint32Value"
+                ]
+              }
+            },
+            "required": [
+              "numeric"
+            ]
+          }
+        },
+        "required": [
+          "call_duration",
+          "call_start_time",
+          "call_end_time",
+          "cell_id_1",
+          "cell_id_2"
+        ]
+      }
+    },
+    "level": "strict",
+    "message": "Schema Validation Failed For Telecom Call Predicate"
+  }
+}

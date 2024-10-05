@@ -1,0 +1,46 @@
+trigger:
+  branches:
+    include:
+      - feature-multistage-build
+  tags:
+     include:
+      - dev-*
+
+variables:
+  venv_dir: ./kgenv
+  nexus_host: nexus.rjil.ril.com
+  repository_url: http://10.141.51.157:9081/repository/Brain_os-py/
+  index_url: http://Brain_os:Brain_os@nexus.rjil.ril.com:9081/repository/Brain_os-py-group/simple/
+  distname: knowledge-graph
+  config_map: scripts/config_map.csv
+  #${{ if eq(variables['Build.SourceBranchName'], 'feature-multistage-build') }}:
+  #  env_name: dev
+  #${{ startsWith(variables['Build.SourceBranch'], 'refs/tags/') }}:
+  #  tag_name: variables['Build.SourceBranch']
+
+stages:
+- stage: Release
+  condition: (startsWith(variables['Build.SourceBranch'], 'refs/tags/'))
+  jobs:
+  - job: Deploy_api
+    pool:
+      name: 'JioBuildAgent'
+    steps:
+    - script: |
+        pip3.9 install virtualenv --trusted-host $(nexus_host) --index-url $(index_url)
+        python3.9 -m venv $(venv_dir)
+        source $(venv_dir)/bin/activate
+        pip install --upgrade pip --trusted-host $(nexus_host) --index-url $(index_url)
+        pip install twine --trusted-host $(nexus_host) --index-url $(index_url)
+        pip install -r requirements.txt --trusted-host $(nexus_host) --index-url $(index_url)
+      displayName: Download, install & activate virtualenv
+    - bash: |
+        source $(venv_dir)/bin/activate
+        export http_proxy=http://prodproxy.jio.com:8080
+        export https_proxy=http://prodproxy.jio.com:8080
+        export env_name=$(echo $Build.SourceBranchName | cut -d '/' -f1)
+        export api_name=$(echo $Build.SourceBranchName | cut -d '/' -f2)
+        export version=$(echo $Build.SourceBranchName | cut -d '/' -f3)
+        export port=$(grep $api_name $config_map | cut -d, -f2)
+        echo 'ansible-playbook scripts/deploy.yml --extra-vars "api_name=$api_name port=$port image_tag=$(env_name)-$version" --tags="login,build"'
+      displayName: Run server and test client on local and on docker

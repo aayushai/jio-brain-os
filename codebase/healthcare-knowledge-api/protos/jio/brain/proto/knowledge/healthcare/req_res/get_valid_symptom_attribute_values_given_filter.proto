@@ -1,0 +1,16 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message GetValidSymptomAttributeValuesGivenFilterRequest {
+    uint32 symptom_id = 1;      
+    uint32 attribute_id = 2; 
+    uint32 gender = 3; 
+    uint32 age = 4; 
+}
+
+message GetValidSymptomAttributeValuesGivenFilterResponse {
+    repeated uint32 value_id = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

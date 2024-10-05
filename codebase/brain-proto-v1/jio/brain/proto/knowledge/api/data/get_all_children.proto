@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service GetAllChildrenService {
+  rpc serve(GetAllChildrenRequest) returns (GetAllChildrenResponse) {}
+}
+
+message GetAllChildrenRequest {
+	string from_node = 1;      
+	string predicate_name = 2;
+}
+
+message GetAllChildrenResponse {
+	repeated ChildrenResponse to_node = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}
+
+message ChildrenResponse {
+    uint32 id = 1;
+    string entity_type = 2;
+    string name = 3;
+    string display_name = 4;
+}

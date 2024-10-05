@@ -1,0 +1,3 @@
+API_NAME = "delete_collection"
+MAX_WORKERS=5
+SERVER_PORT=31013

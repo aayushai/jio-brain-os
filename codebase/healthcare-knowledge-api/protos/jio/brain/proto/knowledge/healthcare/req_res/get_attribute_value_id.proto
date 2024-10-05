@@ -1,0 +1,15 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message GetAttributeValueIdRequest {
+    string attribute_value_name = 1;
+}
+
+message GetAttributeValueIdResponse {
+	uint32 symptom_id = 1;
+    uint32 attribute_id = 2;
+    uint32 value_id = 3;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 4;
+}

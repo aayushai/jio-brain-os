@@ -1,0 +1,11 @@
+{
+    "status": {
+      "brainStatusInstance": [
+        {
+          "parameters": {
+            "INVALID_INPUT": "Wrong format: dynamic schema block not present"
+          }
+        }
+      ]
+    }
+  }

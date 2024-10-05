@@ -1,0 +1,33 @@
+2022-03-14 19:46:56,948 - root - DEBUG - request sent from serve method edge_collection: "has_symptom"
+from_id: 12
+to_id: 21
+
+2022-03-14 19:46:56,948 - root - DEBUG - Main execute method entered
+2022-03-14 19:46:56,948 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:46:56,949 - root - DEBUG - Execute method reached
+2022-03-14 19:46:56,949 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:46:56,949 - root - INFO - Preprocessing completed
+2022-03-14 19:46:56,949 - root - DEBUG - Execute method reached
+2022-03-14 19:46:56,951 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-03-14 19:46:56,952 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 277
+2022-03-14 19:46:56,953 - root - INFO - Query executed
+2022-03-14 19:46:56,953 - root - INFO - Query executed
+2022-03-14 19:46:56,953 - root - INFO - Main execution completed
+2022-03-14 19:46:56,953 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:46:56,953 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:47:02,161 - root - DEBUG - request sent from serve method edge_collection: "has_attribute"
+from_id: 21
+to_id: 212
+
+2022-03-14 19:47:02,161 - root - DEBUG - Main execute method entered
+2022-03-14 19:47:02,161 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:47:02,161 - root - DEBUG - Execute method reached
+2022-03-14 19:47:02,161 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:47:02,161 - root - INFO - Preprocessing completed
+2022-03-14 19:47:02,161 - root - DEBUG - Execute method reached
+2022-03-14 19:47:02,163 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 277
+2022-03-14 19:47:02,164 - root - INFO - Query executed
+2022-03-14 19:47:02,164 - root - INFO - Query executed
+2022-03-14 19:47:02,164 - root - INFO - Main execution completed
+2022-03-14 19:47:02,164 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:47:02,164 - root - DEBUG - Main postprocessing completed

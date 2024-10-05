@@ -1,0 +1,17 @@
+2022-04-06 11:29:35,121 - root - DEBUG - request sent from serve method id: 21
+
+2022-04-06 11:29:35,121 - root - DEBUG - Main execute method entered
+2022-04-06 11:29:35,121 - root - DEBUG - Main preprocessing method entered
+2022-04-06 11:29:35,121 - root - DEBUG - Execute method reached
+2022-04-06 11:29:35,121 - root - DEBUG - Preprocessing method reached
+2022-04-06 11:29:35,121 - root - INFO - Preprocessing completed
+2022-04-06 11:29:35,121 - root - DEBUG - Execute method reached
+2022-04-06 11:29:35,122 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-04-06 11:29:35,133 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 1264
+2022-04-06 11:29:35,134 - root - INFO - Query executed
+2022-04-06 11:29:35,134 - root - DEBUG - Postprocessing method reached
+2022-04-06 11:29:35,134 - root - INFO - Postprocessing completed
+2022-04-06 11:29:35,134 - root - INFO - Query executed
+2022-04-06 11:29:35,134 - root - INFO - Main execution completed
+2022-04-06 11:29:35,134 - root - DEBUG - Main postprocessing method entered
+2022-04-06 11:29:35,135 - root - DEBUG - Main postprocessing completed

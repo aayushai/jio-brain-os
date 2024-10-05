@@ -1,0 +1,161 @@
+spec:
+  ports:
+    - nodePort: 31001
+      port: 31001
+      name: add-collection-type-api
+    - nodePort: 31002
+      port: 31002
+      name: add-entity-api
+    - nodePort: 31003
+      port: 31003
+      name: metadata-lookup-api
+    - nodePort: 31004
+      port: 31004
+      name: delete-entity-api
+    - nodePort: 31005
+      port: 31005
+      name: delete-collection-type-api
+    - nodePort: 31006
+      port: 31006
+      name: add-attribute-type-api
+    - nodePort: 31007
+      port: 31007
+      name: add-bizid-to-entity-api
+    - nodePort: 31008
+      port: 31008
+      name: add-predicate-api
+    - nodePort: 31009
+      port: 31009
+      name: get-entity-api
+    - nodePort: 31010
+      port: 31010
+      name: get-predicate-api
+    - nodePort: 31011
+      port: 31011
+      name: has-entity-api
+    - nodePort: 31012
+      port: 31012
+      name: has-biz-id-api
+    - nodePort: 31013
+      port: 31013
+      name: delete-collection-api
+    - nodePort: 31006
+      port: 31006
+      name: add-attribute-type-api
+    - nodePort: 31014
+      port: 31014
+      name: get-attribute-api
+    - nodePort: 31015
+      port: 31015
+      name: get-canonical-name-api
+    - nodePort: 31016
+      port: 31016
+      name: graph-query-api
+    - nodePort: 31017
+      port: 31017
+      name: get-alias-api
+    - nodePort: 31018
+      port: 31018
+      name: get-all-biz-id-types-of-entity-id-api
+    - nodePort: 31019
+      port: 31019
+      name: get-entities-with-alias-name-api
+    - nodePort: 31020
+      port: 31020
+      name: has-canonical-name-api
+    - nodePort: 31021
+      port: 31021
+      name: get-entities-with-canonical-name-api
+    - nodePort: 31022
+      port: 31022
+      name: delete-attribute-api
+    - nodePort: 31023
+      port: 31023
+      name: delete-predicate-api
+    - nodePort: 31024
+      port: 31024
+      name: add-attribute-api
+    - nodePort: 31025
+      port: 31025
+      name: delete-bizid-api
+    - nodePort: 31027
+      port: 31027
+      name: delete-canonical-name-api
+    - nodePort: 31026
+      port: 31026
+      name: add-canonical-name-api
+    - nodePort: 31028
+      port: 31028
+      name: delete-attribute-type-api
+    - nodePort: 31029
+      port: 31029
+      name: enrich-api-api
+    - nodePort: 31030
+      port: 31030
+      name: get-all-entity-ids-using-biz-id-api
+    - nodePort: 31031
+      port: 31031
+      name: delete-entity-alias-api
+    - nodePort: 31032
+      port: 31032
+      name: get-bizid-of-entityid-api
+    - nodePort: 31034
+      port: 31034
+      name: update-bizid-to-entity-api
+    - nodePort: 31035
+      port: 31035
+      name: update-canonical-name-api
+    - nodePort: 31033
+      port: 31033
+      name: has-any-biz-id-api
+    - nodePort: 30000
+      port: 30000
+      name: knowledge-graph-middleware
+    - nodePort: 31036
+      port: 31036
+      name: get-schema-api
+    - nodePort: 31038
+      port: 31038
+      name: get-all-children-api
+    - nodePort: 31039
+      port: 31039
+      name: entity-id-lookup-api
+    - nodePort: 31046
+      port: 31046
+      name: get-attribute-id-api
+    - nodePort: 31044
+      port: 31044
+      name: get-edge-api
+    - nodePort: 31048
+      port: 31048
+      name: get-entity-id-by-name-api
+    - nodePort: 31051
+      port: 31051
+      name: get-context-api
+    - nodePort: 31047
+      port: 31047
+      name: get-context-value-id-api
+    - nodePort: 31053
+      port: 31053
+      name: search-entity-by-context-api
+    - nodePort: 31054
+      port: 31054
+      name: get-entity-context-api
+    - nodePort: 31045
+      port: 31045
+      name: get-attribute-value-api
+    - nodePort: 31055
+      port: 31055
+      name: get-attribute-api-v2
+    - nodePort: 31056
+      port: 31056
+      name: metadata-lookup-api-v2
+    - nodePort: 31052
+      port: 31052
+      name: get-attribute-value-id-api
+    - nodePort: 31050
+      port: 31050
+      name: healthcare-knowledge-api
+    - nodePort: 31043
+      port: 31043
+      name: get-all-attributes-api

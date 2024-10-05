@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-canonical-name-api-deployment
+  labels:
+    app: get-canonical-name-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-canonical-name-api
+  template:
+    metadata:
+      labels:
+        app: get-canonical-name-api
+    spec:
+      containers:
+      - name: get-canonical-name-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_canonical_name_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31015
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-canonical-name-service
+spec:
+  selector:
+    app: get-canonical-name-api
+  ports:
+    - name: tcp-port
+      targetPort: 31015
+      port: 31015
+      protocol: TCP
+  type: ClusterIP

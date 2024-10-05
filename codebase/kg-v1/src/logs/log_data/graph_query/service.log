@@ -1,0 +1,61 @@
+2022-03-14 19:48:50,056 - root - DEBUG - request sent from serve method query: "LET age_group_ids = (\nFOR doc in applies_to\nLET context_doc = DOCUMENT(doc._to)\nFILTER context_doc.maximum_age >= 42 and context_doc.minimum_age <= 42\nRETURN context_doc.id )\nRETURN UNIQUE(age_group_ids)"
+
+2022-03-14 19:48:50,056 - root - DEBUG - Main execute method entered
+2022-03-14 19:48:50,057 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:48:50,057 - root - INFO - Main Preprocessing completed
+2022-03-14 19:48:50,057 - root - DEBUG - Execute method reached
+2022-03-14 19:48:50,057 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:48:50,057 - root - INFO - Preprocessing completed
+2022-03-14 19:48:50,057 - root - DEBUG - Execute method reached
+2022-03-14 19:48:50,059 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-03-14 19:48:50,060 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 270
+2022-03-14 19:48:50,061 - root - INFO - Query executed
+2022-03-14 19:48:50,061 - root - INFO - Query executed
+2022-03-14 19:48:50,061 - root - INFO - Main execution completed
+2022-03-14 19:48:50,061 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:48:50,061 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:48:54,909 - root - DEBUG - request sent from serve method query: "LET age_group_ids = (\nFOR doc in applies_to\nLET context_doc = DOCUMENT(doc._to)\nFILTER context_doc.maximum_age >= 42 and context_doc.minimum_age <= 42\nRETURN context_doc.id )\nRETURN UNIQUE(age_group_ids)"
+
+2022-03-14 19:48:54,909 - root - DEBUG - Main execute method entered
+2022-03-14 19:48:54,909 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:48:54,909 - root - INFO - Main Preprocessing completed
+2022-03-14 19:48:54,910 - root - DEBUG - Execute method reached
+2022-03-14 19:48:54,910 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:48:54,910 - root - INFO - Preprocessing completed
+2022-03-14 19:48:54,910 - root - DEBUG - Execute method reached
+2022-03-14 19:48:54,912 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 270
+2022-03-14 19:48:54,913 - root - INFO - Query executed
+2022-03-14 19:48:54,913 - root - INFO - Query executed
+2022-03-14 19:48:54,913 - root - INFO - Main execution completed
+2022-03-14 19:48:54,913 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:48:54,913 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:49:01,368 - root - DEBUG - request sent from serve method query: "LET age_group_ids = (\nFOR doc in applies_to\nLET context_doc = DOCUMENT(doc._to)\nFILTER context_doc.maximum_age >= 45 and context_doc.minimum_age <= 45\nRETURN context_doc.id )\nRETURN UNIQUE(age_group_ids)"
+
+2022-03-14 19:49:01,368 - root - DEBUG - Main execute method entered
+2022-03-14 19:49:01,369 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:49:01,369 - root - INFO - Main Preprocessing completed
+2022-03-14 19:49:01,369 - root - DEBUG - Execute method reached
+2022-03-14 19:49:01,369 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:49:01,369 - root - INFO - Preprocessing completed
+2022-03-14 19:49:01,369 - root - DEBUG - Execute method reached
+2022-03-14 19:49:01,371 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 270
+2022-03-14 19:49:01,372 - root - INFO - Query executed
+2022-03-14 19:49:01,372 - root - INFO - Query executed
+2022-03-14 19:49:01,372 - root - INFO - Main execution completed
+2022-03-14 19:49:01,372 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:49:01,372 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:49:16,064 - root - DEBUG - request sent from serve method query: "LET age_group_ids = (\nFOR doc in applies_to\nLET context_doc = DOCUMENT(doc._to)\nFILTER context_doc.maximum_age >= 45 and context_doc.minimum_age <= 45\nRETURN context_doc.id )\nRETURN UNIQUE(age_group_ids)"
+
+2022-03-14 19:49:16,064 - root - DEBUG - Main execute method entered
+2022-03-14 19:49:16,064 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:49:16,064 - root - INFO - Main Preprocessing completed
+2022-03-14 19:49:16,064 - root - DEBUG - Execute method reached
+2022-03-14 19:49:16,064 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:49:16,064 - root - INFO - Preprocessing completed
+2022-03-14 19:49:16,065 - root - DEBUG - Execute method reached
+2022-03-14 19:49:16,067 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 270
+2022-03-14 19:49:16,067 - root - INFO - Query executed
+2022-03-14 19:49:16,067 - root - INFO - Query executed
+2022-03-14 19:49:16,067 - root - INFO - Main execution completed
+2022-03-14 19:49:16,067 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:49:16,068 - root - DEBUG - Main postprocessing completed

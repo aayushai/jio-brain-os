@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delete-attribute-type-api-deployment
+  labels:
+    app: delete-attribute-type-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delete-attribute-type-api
+  template:
+    metadata:
+      labels:
+        app: delete-attribute-type-api
+    spec:
+      containers:
+      - name: delete-attribute-type-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/delete_attribute_type_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31028
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delete-attribute-type-service
+spec:
+  selector:
+    app: delete-attribute-type-api
+  ports:
+    - name: tcp-port
+      targetPort: 31028
+      port: 31028
+      protocol: TCP
+  type: ClusterIP

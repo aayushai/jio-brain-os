@@ -1,0 +1,5 @@
+{  
+	"predicate_name": "agriculture_crop_is_sown_in_agriculture_farm",
+	"from_entity_id": "agriculture_crop/20000064",
+	"to_entity_id": "agriculture_farm/20000063"
+  }

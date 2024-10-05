@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package jio.brain.proto.process;
+
+option java_package = "com.jio.brain.proto.process";
+option java_multiple_files = true;
+
+message BrainComputeProcessSchema {
+  string output_event_schema = 1;
+  string output_topic = 2;
+  repeated ComputeInstance instances = 3;
+}
+
+message ComputeInstance {
+  FieldType type = 1;
+   string compute_expression = 2;  // (product.mrp - product.discount) * product.quantity + product.gst  ( BODMAS )
+   string output_property_name=3;  // product.price or bill_amount
+
+  enum FieldType {
+      attribute=0;
+      property=1;
+  }
+}

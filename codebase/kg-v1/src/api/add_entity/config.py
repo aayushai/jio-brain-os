@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31002
+API_NAME = "add_entity"

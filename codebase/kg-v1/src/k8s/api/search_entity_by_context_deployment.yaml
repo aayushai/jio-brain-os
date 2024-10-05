@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: search-entity-by-context-api-deployment
+  labels:
+    app: search-entity-by-context-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: search-entity-by-context-api
+  template:
+    metadata:
+      labels:
+        app: search-entity-by-context-api
+    spec:
+      containers:
+      - name: search-entity-by-context-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/search_entity_by_context_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31053
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: search-entity-by-context-service
+spec:
+  selector:
+    app: search-entity-by-context-api
+  ports:
+    - name: tcp-port
+      targetPort: 31053
+      port: 31053
+      protocol: TCP
+  type: ClusterIP

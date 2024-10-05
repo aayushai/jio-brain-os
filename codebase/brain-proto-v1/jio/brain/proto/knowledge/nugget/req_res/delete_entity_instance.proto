@@ -1,0 +1,12 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.nugget;
+
+import "jio/brain/proto/base/status.proto";
+
+message DeleteEntityInstanceRequest {
+    uint64 brain_id = 1;
+}
+
+message DeleteEntityInstanceResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
+}

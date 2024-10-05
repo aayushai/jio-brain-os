@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-alias-api-deployment
+  labels:
+    app: get-alias-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-alias-api
+  template:
+    metadata:
+      labels:
+        app: get-alias-api
+    spec:
+      containers:
+      - name: get-alias-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_alias_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-alias-service
+spec:
+  selector:
+    app: get-alias-api
+  ports:
+    - name: tcp-port
+      targetPort: 31017
+      port: 31017
+      protocol: TCP
+  type: ClusterIP

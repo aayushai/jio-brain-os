@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-entity-api-deployment
+  labels:
+    app: get-entity-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-entity-api
+  template:
+    metadata:
+      labels:
+        app: get-entity-api
+    spec:
+      containers:
+      - name: get-entity-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_entity_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31009
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-entity-service
+spec:
+  selector:
+    app: get-entity-api
+  ports:
+    - name: tcp-port
+      targetPort: 31009
+      port: 31009
+      protocol: TCP
+  type: ClusterIP

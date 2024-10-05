@@ -1,0 +1,13 @@
+{
+  "isPresent": true,
+  "status": {
+    "isOk": true,
+    "brainStatusInstance": [
+      {
+        "parameters": {
+          "NO_ERROR": "no error"
+        }
+      }
+    ]
+  }
+}
