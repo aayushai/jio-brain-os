@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-attribute-api-v2-deployment
+  labels:
+    app: get-attribute-api-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-attribute-api-v2
+  template:
+    metadata:
+      labels:
+        app: get-attribute-api-v2
+    spec:
+      containers:
+      - name: get-attribute-api-v2
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_attribute_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31055
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-attribute-service-v2
+spec:
+  selector:
+    app: get-attribute-api-v2
+  ports:
+    - name: tcp-port
+      targetPort: 31055
+      port: 31055
+      protocol: TCP
+  type: ClusterIP

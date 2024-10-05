@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+service GetParentService {
+  rpc serve(GetParentRequest) returns (GetParentResponse) {}
+}
+
+message GetParentRequest {
+    string child_node = 1;
+}
+
+message GetParentResponse {
+	string parent_entity_type = 1;
+}

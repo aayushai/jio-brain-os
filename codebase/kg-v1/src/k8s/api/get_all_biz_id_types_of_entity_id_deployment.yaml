@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-all-biz-id-types-of-entity-id-api-deployment
+  labels:
+    app: get-all-biz-id-types-of-entity-id-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-all-biz-id-types-of-entity-id-api
+  template:
+    metadata:
+      labels:
+        app: get-all-biz-id-types-of-entity-id-api
+    spec:
+      containers:
+      - name: get-all-biz-id-types-of-entity-id-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_all_biz_id_types_of_entity_id_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31018
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-all-biz-id-types-of-entity-id-service
+spec:
+  selector:
+    app: get-all-biz-id-types-of-entity-id-api
+  ports:
+    - name: tcp-port
+      targetPort: 31018
+      port: 31018
+      protocol: TCP
+  type: ClusterIP

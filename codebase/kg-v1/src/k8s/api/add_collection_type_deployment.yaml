@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-collection-type-api-deployment
+  labels:
+    app: add-collection-type-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-collection-type-api
+  template:
+    metadata:
+      labels:
+        app: add-collection-type-api
+    spec:
+      containers:
+      - name: add-collection-type-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/add_collection_type_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-collection-type-service
+spec:
+  selector:
+    app: add-collection-type-api
+  ports:
+    - name: tcp-port
+      targetPort: 31001
+      port: 31001
+      protocol: TCP
+  type: ClusterIP

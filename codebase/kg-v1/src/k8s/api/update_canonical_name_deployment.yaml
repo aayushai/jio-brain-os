@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: update-canonical-name-api-deployment
+  labels:
+    app: update-canonical-name-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: update-canonical-name-api
+  template:
+    metadata:
+      labels:
+        app: update-canonical-name-api
+    spec:
+      containers:
+      - name: update-canonical-name-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/update_canonical_name_api:v1.2
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31035
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: update-canonical-name-service
+spec:
+  selector:
+    app: update-canonical-name-api
+  ports:
+    - name: tcp-port
+      targetPort: 31035
+      port: 31035
+      protocol: TCP
+  type: ClusterIP

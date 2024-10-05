@@ -1,0 +1,15 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.nugget;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+
+message DeletePredicateInstanceByIdRequest {
+    string domain_name = 1;
+    string predicate_name = 2;
+    uint64 predicate_id = 3;
+}
+
+message DeletePredicateInstanceByIdResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
+}

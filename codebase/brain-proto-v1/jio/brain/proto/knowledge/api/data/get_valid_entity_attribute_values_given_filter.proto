@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service GetValidEntityAttributeValuesGivenFilterService {
+  rpc serve(GetValidEntityAttributeValuesGivenFilterRequest) returns (GetValidEntityAttributeValuesGivenFilterResponse) {}
+}
+
+message GetValidEntityAttributeValuesGivenFilterRequest {
+    uint32 entity_id = 1;      
+    uint32 attribute_id = 2; 
+    string entity_type = 3;
+    uint32 context_id = 4;  
+}
+
+message GetValidEntityAttributeValuesGivenFilterResponse {
+    repeated uint32 value_id = 1;
+    jio.brain.proto.base.BrainStatus status = 2;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+service GetAllAttributesService {
+  rpc serve(GetAllAttributesRequest) returns (GetAllAttributesResponse) {}
+}
+
+message GetAllAttributesRequest {
+    string entity_type = 1;
+}
+
+message GetAllAttributesResponse {
+	repeated string attribute = 1;
+}

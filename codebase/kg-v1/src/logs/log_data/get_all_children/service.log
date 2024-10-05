@@ -1,0 +1,19 @@
+2022-04-14 14:38:07,002 - root - DEBUG - request sent from serve method from_node: "healthcare_disease"
+predicate_name: "is_a"
+
+2022-04-14 14:38:07,002 - root - DEBUG - Main execute method entered
+2022-04-14 14:38:07,002 - root - DEBUG - Main preprocessing method entered
+2022-04-14 14:38:07,002 - root - INFO - Main Preprocessing completed
+2022-04-14 14:38:07,002 - root - DEBUG - Execute method reached
+2022-04-14 14:38:07,002 - root - DEBUG - Preprocessing method reached
+2022-04-14 14:38:07,002 - root - DEBUG - Validation method reached
+2022-04-14 14:38:07,002 - root - INFO - Validation Completed
+2022-04-14 14:38:07,003 - root - INFO - Preprocessing completed
+2022-04-14 14:38:07,003 - root - DEBUG - Execute method reached
+2022-04-14 14:38:07,004 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-04-14 14:38:07,009 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 908
+2022-04-14 14:38:07,010 - root - INFO - Query executed
+2022-04-14 14:38:07,010 - root - INFO - Query executed
+2022-04-14 14:38:07,010 - root - INFO - Main execution completed
+2022-04-14 14:38:07,010 - root - DEBUG - Main postprocessing method entered
+2022-04-14 14:38:07,010 - root - DEBUG - Main postprocessing completed

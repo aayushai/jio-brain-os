@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/knowledge/base/attribute.proto"; 
+import "jio/brain/proto/knowledge/base/value.proto"; 
+import "jio/brain/proto/base/status.proto";
+
+service GetAttributeService {
+  rpc serve(GetAttributeRequest) returns (GetAttributeResponse) {}
+}
+
+message GetAttributeRequest {
+  uint32 from_node_id = 1;
+	uint32 to_node_id = 2;
+}
+
+message GetAttributeResponse {
+  jio.brain.proto.knowledge.base.Attribute attribute = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}
+

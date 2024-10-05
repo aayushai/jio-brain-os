@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-all-children-api-deployment
+  labels:
+    app: get-all-children-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-all-children-api
+  template:
+    metadata:
+      labels:
+        app: get-all-children-api
+    spec:
+      containers:
+      - name: get-all-children-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_all_children_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31038
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-all-children-service
+spec:
+  selector:
+    app: get-all-children-api
+  ports:
+    - name: tcp-port
+      targetPort: 31038
+      port: 31038
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+message Value {
+    uint32 id = 1;
+    string name = 2;
+    string query = 3;
+    uint32 order = 4;
+    string value_type = 5;  
+    repeated uint32 diseases = 6; 
+}
+

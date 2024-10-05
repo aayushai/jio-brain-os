@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delete-bizid-api-deployment
+  labels:
+    app: delete-bizid-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delete-bizid-api
+  template:
+    metadata:
+      labels:
+        app: delete-bizid-api
+    spec:
+      containers:
+      - name: delete-bizid-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/delete_bizid_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31025
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delete-bizid-service
+spec:
+  selector:
+    app: delete-bizid-api
+  ports:
+    - name: tcp-port
+      targetPort: 31025
+      port: 31025
+      protocol: TCP
+  type: ClusterIP

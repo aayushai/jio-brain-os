@@ -1,0 +1,15 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/symptom.proto";
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message GetSymptomRequest {
+    uint32 symptom_id = 1;
+}
+
+// Returns a Symptom ID
+message GetSymptomResponse { 
+    jio.brain.proto.knowledge.healthcare.base.Symptom symptom = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

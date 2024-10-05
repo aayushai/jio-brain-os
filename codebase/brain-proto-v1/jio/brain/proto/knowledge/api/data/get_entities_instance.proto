@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/knowledge/base/entity.proto";
+
+service GetEntitiesInstanceService {
+  rpc serve(GetEntitiesInstanceRequest) returns (GetEntitiesInstanceResponse) {}
+}
+
+message GetEntitiesInstanceRequest {
+  string entity_type = 1;
+  uint32 limit = 2;
+  uint32 page_size = 3;
+  string page_token = 4;
+}
+
+message GetEntitiesInstanceResponse {
+  jio.brain.proto.base.BrainStatus status = 1;
+  repeated jio.brain.proto.knowledge.base.Entity entity = 2;
+  string next_page_token = 3;
+}

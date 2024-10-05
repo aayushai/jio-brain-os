@@ -1,0 +1,12 @@
+{
+  "entity_id":"Common_persontest/20000023",
+  "attribute_name":"job",
+  "attribute":{
+    "atomic": {
+      "symbolic": {
+        "value": {
+          "str": "tester"
+        }
+      }
+    } 
+}}

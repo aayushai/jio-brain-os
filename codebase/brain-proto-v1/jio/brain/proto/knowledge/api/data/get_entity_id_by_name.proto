@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package jio.brain.proto.knowledge.api.data;
+
+option java_package = "com.jio.brain.proto.knowledge.api.data";
+option java_multiple_files = true;
+
+import "jio/brain/proto/base/status.proto";
+
+service GetEntityIdByNameService {
+  rpc serve(GetEntityIdByNameRequest) returns (GetEntityIdByNameResponse) {}
+}
+
+message GetEntityIdByNameRequest {
+  string collection_name = 1;
+  string entity_name = 2;
+}
+
+message GetEntityIdByNameResponse {
+  uint32 entity_id = 1;
+  jio.brain.proto.base.BrainStatus status = 2;
+}

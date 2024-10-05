@@ -1,0 +1,12 @@
+{
+  "entity_id":"common_person/20000023",
+  "attribute_name":"salary",
+  "attribute":{
+    "atomic":{  
+      "numeric" : {
+        "value": {"f32":232}
+      }
+    }
+  }
+  
+}

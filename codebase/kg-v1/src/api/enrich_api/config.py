@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31029
+API_NAME = "enrich_api"

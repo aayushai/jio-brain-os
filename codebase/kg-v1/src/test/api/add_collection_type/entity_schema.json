@@ -1,0 +1,159 @@
+{
+  "message": "Schema Validation Failed For City",
+  "level": "strict",
+  "rule": {
+    "type": "object",
+    "properties": {
+      "entityType": {
+        "type": "string"
+      },
+      "bizId": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ]
+        }
+      },
+      "name": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "canonical": {
+              "type": "string"
+            },
+            "language": {
+              "type": "object",
+              "properties": {
+                "language": {
+                  "type": "string"
+                },
+                "script": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "language",
+                "script"
+              ]
+            },
+            "alias": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "canonical"
+          ]
+        }
+      },
+      "attributes": {
+        "type": "object",
+        "properties": {
+          "district": {
+            "type": "object",
+            "properties": {
+              "symbolic": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "value"
+                ]
+              }
+            },
+            "required": [
+              "symbolic"
+            ]
+          },
+          "temperature": {
+            "type": "object",
+            "properties": {
+              "timeseries": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "timeseriesNumericQuery": {
+                    "type": "string"
+                  },
+                  "timeseriesNumericValue": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "timeseriesNumericQuery",
+                  "timeseriesNumericValue"
+                ]
+              }
+            },
+            "required": [
+              "timeseries"
+            ]
+          },
+          "name": {
+            "type": "object",
+            "properties": {
+              "symbolic": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "unit",
+                  "value"
+                ]
+              }
+            },
+            "required": [
+              "symbolic"
+            ]
+          }
+        }
+      }
+    },
+    "required": [
+      "entityType",
+      "attributes"
+    ]
+  }
+}

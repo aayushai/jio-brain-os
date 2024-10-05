@@ -1,0 +1,12 @@
+
+{
+    "status": {
+      "brainStatusInstance": [
+        {
+          "parameters": {
+            "INVALID_INPUT": "Wrong format: Invalid/Missing delimiter"
+          }
+        }
+      ]
+    }
+  }

@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31016
+API_NAME = "graph_query"

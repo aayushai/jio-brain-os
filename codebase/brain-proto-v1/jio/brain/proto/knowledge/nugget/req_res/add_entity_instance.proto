@@ -1,0 +1,20 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.nugget;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+import "jio/brain/proto/knowledge/base/biz_id.proto";
+import "jio/brain/proto/entity/entity.proto";
+
+message AddEntityInstanceRequest {
+    string domain_name = 1;
+    string entity_type = 2;
+    jio.brain.proto.knowledge.base.BizId primary_biz_id = 3;
+    repeated jio.brain.proto.knowledge.base.BizId alternative_biz_ids = 4;
+    map<string, jio.brain.proto.entity.BrainEntityName> names = 5;
+    map<string, jio.brain.proto.quantity.BrainQuantity> attributes = 6;
+}
+
+message AddEntityInstanceResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
+}

@@ -1,0 +1,36 @@
+Compile protos
+------------
+rm -rf protos/jiohkgprotos
+protoutils convert --protopath ./protos --pythonpath ./protos/jiohkgprotos
+cd ./protos/jiohkgprotos && pip install . 
+python setup.py sdist && cp dist/jiohkgprotos-1.0.tar.gz ../../dependencies/jiohkgprotos-1.0.tar.gz
+cd ../../
+
+rm -rf brainproto && rm -rf brainproto.zip
+protoutils convert --protopath ./brain-proto-v1 --pythonpath ./brainproto -t 1.0.3
+cd ./brainproto && pip install .
+python setup.py sdist && cp dist/brainproto-1.0.3.tar.gz ../healthcare-knowledge-api/dependencies/brainproto-1.0.3.tar.gz
+cd ../
+zip -r brainproto.zip brainproto/
+
+rm -rf brainproto && rm -rf brainproto.zip
+protoutils convert --protopath ./brain-proto-v1 --pythonpath ./brainproto -t 1.0.4
+cd ./brainproto && pip install .
+cd ../
+zip -r brainproto.zip brainproto/
+
+Run Server
+-------------
+python -m src.server
+
+Run Client
+-------------
+python -m test.get_all_disease.test
+python -m test.get_disease_by_id.test
+python -m test.get_disease.test
+
+python -m test.get_all_symptom.test
+python -m test.get_symptom_by_id.test
+python -m test.get_symptom.test
+
+python -m test.get_attribute.test

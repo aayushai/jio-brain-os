@@ -1,0 +1,12 @@
+{
+    "status": {
+      "isOk": true,
+      "brainStatusInstance": [
+        {
+          "parameters": {
+            "msg": "Invalid Request"
+          }
+        }
+      ]
+    }
+  }

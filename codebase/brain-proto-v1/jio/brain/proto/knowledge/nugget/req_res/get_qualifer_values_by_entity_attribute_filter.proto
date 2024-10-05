@@ -1,0 +1,18 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.nugget;
+
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+
+message GetQualifierValuesByEntityAttributeFilterRequest {
+    string domain_name = 1;
+    string entity_type = 2;
+    uint64 entity_id = 3;
+    string attribute_condition = 4;
+    repeated string qualifier_name_set = 5;
+}
+
+message GetQualifierValuesByEntityAttributeFilterResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
+    map<string, jio.brain.proto.quantity.BrainQuantity> qualifier_value_set = 2;
+}

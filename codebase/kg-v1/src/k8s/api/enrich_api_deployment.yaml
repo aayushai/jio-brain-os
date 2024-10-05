@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: enrich-api-api-deployment
+  labels:
+    app: enrich-api-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: enrich-api-api
+  template:
+    metadata:
+      labels:
+        app: enrich-api-api
+    spec:
+      containers:
+      - name: enrich-api-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/enrich_api_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31029
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: enrich-api-service
+spec:
+  selector:
+    app: enrich-api-api
+  ports:
+    - name: tcp-port
+      targetPort: 31029
+      port: 31029
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,7 @@
+{
+    "old_biz_id_type": "person/id",
+    "old_biz_id_value": "P13",
+    "new_biz_id_type":  "person_id",
+    "new_biz_id_value": "P12",
+    "entity_id": "common_person12/1615704"
+}

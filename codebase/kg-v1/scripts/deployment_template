@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${api_name_hyphen}-api-deployment
+  labels:
+    app: ${api_name_hyphen}-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ${api_name_hyphen}-api
+  template:
+    metadata:
+      labels:
+        app: ${api_name_hyphen}-api
+    spec:
+      containers:
+      - name: ${api_name_hyphen}-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/${api_name}_api:${image_tag}
+        imagePullPolicy: Always
+        ports:
+          - containerPort: ${port}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${api_name_hyphen}-service
+spec:
+  selector:
+    app: ${api_name_hyphen}-api
+  ports:
+    - name: tcp-port
+      targetPort: ${port}
+      port: ${port}
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,91 @@
+2022-04-08 16:13:40,852 - root - DEBUG - request sent from serve method collection_name: "healthcare_entity_type"
+entity_id: 11
+
+2022-04-08 16:13:40,852 - root - DEBUG - Main execute method entered
+2022-04-08 16:13:40,853 - root - DEBUG - Main preprocessing method entered
+2022-04-08 16:13:40,853 - root - INFO - Main Preprocessing completed
+2022-04-08 16:13:40,853 - root - DEBUG - Execute method reached
+2022-04-08 16:13:40,853 - root - DEBUG - Preprocessing method reached
+2022-04-08 16:13:40,853 - root - DEBUG - Validation method reached
+2022-04-08 16:13:40,853 - root - INFO - Validation Completed
+2022-04-08 16:13:40,853 - root - INFO - Preprocessing completed
+2022-04-08 16:13:40,853 - root - DEBUG - Execute method reached
+2022-04-08 16:13:40,854 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-04-08 16:13:40,856 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 297
+2022-04-08 16:13:40,857 - root - INFO - Query executed
+2022-04-08 16:13:40,857 - root - INFO - Query executed
+2022-04-08 16:13:40,857 - root - INFO - Main execution completed
+2022-04-08 16:13:40,857 - root - DEBUG - Main postprocessing method entered
+2022-04-08 16:13:40,857 - root - DEBUG - Main postprocessing completed
+2022-04-08 16:13:46,877 - root - DEBUG - request sent from serve method collection_name: "healthcare_entity_type"
+entity_id: 21
+
+2022-04-08 16:13:46,877 - root - DEBUG - Main execute method entered
+2022-04-08 16:13:46,877 - root - DEBUG - Main preprocessing method entered
+2022-04-08 16:13:46,878 - root - INFO - Main Preprocessing completed
+2022-04-08 16:13:46,878 - root - DEBUG - Execute method reached
+2022-04-08 16:13:46,878 - root - DEBUG - Preprocessing method reached
+2022-04-08 16:13:46,878 - root - DEBUG - Validation method reached
+2022-04-08 16:13:46,878 - root - INFO - Validation Completed
+2022-04-08 16:13:46,878 - root - INFO - Preprocessing completed
+2022-04-08 16:13:46,878 - root - DEBUG - Execute method reached
+2022-04-08 16:13:46,880 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 289
+2022-04-08 16:13:46,881 - root - INFO - Query executed
+2022-04-08 16:13:46,881 - root - INFO - Query executed
+2022-04-08 16:13:46,881 - root - INFO - Main execution completed
+2022-04-08 16:13:46,881 - root - DEBUG - Main postprocessing method entered
+2022-04-08 16:13:46,881 - root - DEBUG - Main postprocessing completed
+2022-04-08 16:13:51,534 - root - DEBUG - request sent from serve method collection_name: "healthcare_context_type"
+entity_id: 31
+
+2022-04-08 16:13:51,534 - root - DEBUG - Main execute method entered
+2022-04-08 16:13:51,534 - root - DEBUG - Main preprocessing method entered
+2022-04-08 16:13:51,534 - root - INFO - Main Preprocessing completed
+2022-04-08 16:13:51,534 - root - DEBUG - Execute method reached
+2022-04-08 16:13:51,534 - root - DEBUG - Preprocessing method reached
+2022-04-08 16:13:51,535 - root - DEBUG - Validation method reached
+2022-04-08 16:13:51,535 - root - INFO - Validation Completed
+2022-04-08 16:13:51,535 - root - INFO - Preprocessing completed
+2022-04-08 16:13:51,535 - root - DEBUG - Execute method reached
+2022-04-08 16:13:51,537 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 288
+2022-04-08 16:13:51,538 - root - INFO - Query executed
+2022-04-08 16:13:51,538 - root - INFO - Query executed
+2022-04-08 16:13:51,538 - root - INFO - Main execution completed
+2022-04-08 16:13:51,538 - root - DEBUG - Main postprocessing method entered
+2022-04-08 16:13:51,538 - root - DEBUG - Main postprocessing completed
+2022-04-08 16:14:07,586 - root - DEBUG - request sent from serve method collection_name: "healthcare_entity_type"
+entity_id: 511
+
+2022-04-08 16:14:07,586 - root - DEBUG - Main execute method entered
+2022-04-08 16:14:07,586 - root - DEBUG - Main preprocessing method entered
+2022-04-08 16:14:07,586 - root - INFO - Main Preprocessing completed
+2022-04-08 16:14:07,586 - root - DEBUG - Execute method reached
+2022-04-08 16:14:07,586 - root - DEBUG - Preprocessing method reached
+2022-04-08 16:14:07,586 - root - DEBUG - Validation method reached
+2022-04-08 16:14:07,586 - root - INFO - Validation Completed
+2022-04-08 16:14:07,587 - root - INFO - Preprocessing completed
+2022-04-08 16:14:07,587 - root - DEBUG - Execute method reached
+2022-04-08 16:14:07,589 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 266
+2022-04-08 16:14:07,589 - root - INFO - Query executed
+2022-04-08 16:14:07,590 - root - INFO - Query executed
+2022-04-08 16:14:07,590 - root - ERROR - {'is_ok': False, 'brain_status_instance': [{'status_code': 0, 'parameters': {'msg': 'Id not present in database'}}]}
+2022-04-08 16:14:07,590 - root - DEBUG - Main postprocessing method entered
+2022-04-08 16:14:07,590 - root - DEBUG - Main postprocessing completed
+2022-04-08 16:14:13,606 - root - DEBUG - request sent from serve method collection_name: "healthcare_entity_type"
+entity_id: 11
+
+2022-04-08 16:14:13,606 - root - DEBUG - Main execute method entered
+2022-04-08 16:14:13,606 - root - DEBUG - Main preprocessing method entered
+2022-04-08 16:14:13,606 - root - INFO - Main Preprocessing completed
+2022-04-08 16:14:13,606 - root - DEBUG - Execute method reached
+2022-04-08 16:14:13,606 - root - DEBUG - Preprocessing method reached
+2022-04-08 16:14:13,606 - root - DEBUG - Validation method reached
+2022-04-08 16:14:13,606 - root - INFO - Validation Completed
+2022-04-08 16:14:13,606 - root - INFO - Preprocessing completed
+2022-04-08 16:14:13,606 - root - DEBUG - Execute method reached
+2022-04-08 16:14:13,608 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 296
+2022-04-08 16:14:13,608 - root - INFO - Query executed
+2022-04-08 16:14:13,608 - root - INFO - Query executed
+2022-04-08 16:14:13,608 - root - INFO - Main execution completed
+2022-04-08 16:14:13,608 - root - DEBUG - Main postprocessing method entered
+2022-04-08 16:14:13,608 - root - DEBUG - Main postprocessing completed

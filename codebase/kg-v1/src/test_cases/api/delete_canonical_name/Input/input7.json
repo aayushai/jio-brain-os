@@ -1,0 +1,12 @@
+{
+    "entity_id": "",
+    "language": {
+        "language": "japanese"
+    },
+    "entity_name": {
+        "canonical": "Satya Sen japanes",
+        "aliases": {
+            "satya": true
+        }
+    }
+}

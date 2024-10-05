@@ -1,0 +1,48 @@
+{
+  "entityType": "common_person123",
+  "bizId": [
+    {
+      "type": "person_id",
+      "value": "C12"
+    }
+  ],
+  "name": {
+    "english": {
+      "canonical": "person1",
+      "aliases": {
+        "element": {
+          "person": true
+        }
+      }
+    }
+  },
+  "attributes": {
+    "name": {
+      "atomic": {
+        "symbolic": {
+          "value": {
+            "str": "SRK"
+          }
+        }
+      }
+    },
+    "salary": {
+      "atomic": {
+        "symbolic": {
+          "value": {
+            "str": 10000
+          }
+        }
+      }
+    },
+    "DOB": {
+      "atomic": {
+        "symbolic": {
+          "value": {
+            "str": "24 Jul"
+          }
+        }
+      }
+    }
+  }
+}

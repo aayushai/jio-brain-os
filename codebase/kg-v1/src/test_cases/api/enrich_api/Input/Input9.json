@@ -1,0 +1,25 @@
+{
+  "attribute": [
+    {
+      "type": "common_person123",
+      "entity_ids": [
+        "12345869012","123458690121"
+      ],
+      "attributes": [
+        "salary"
+      ]
+    }
+  ],
+  "predicate": [
+    {
+      "type": "common_politician",
+      "entity_ids": [
+        "1786469"
+      ],
+      "predicates": [
+        "is_a"
+      ]
+    }
+  ]
+}
+

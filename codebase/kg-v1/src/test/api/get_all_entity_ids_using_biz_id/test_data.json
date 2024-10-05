@@ -1,0 +1,8 @@
+{
+    "collection_name": "common_person",
+    "bizId" : 
+    {
+      "type": "/bizid/common_person/pancard",
+      "value": "Modi-Pan-Card-Official"
+      }
+  }

@@ -1,0 +1,18 @@
+2022-03-16 11:24:19,644 - root - DEBUG - request sent from serve method entity_id: 25
+
+2022-03-16 11:24:19,644 - root - DEBUG - Main execute method entered
+2022-03-16 11:24:19,644 - root - DEBUG - Main preprocessing method entered
+2022-03-16 11:24:19,644 - root - INFO - Main Preprocessing completed
+2022-03-16 11:24:19,644 - root - DEBUG - Execute method reached
+2022-03-16 11:24:19,644 - root - DEBUG - Preprocessing method reached
+2022-03-16 11:24:19,645 - root - DEBUG - Validation method reached
+2022-03-16 11:24:19,645 - root - INFO - Validation Completed
+2022-03-16 11:24:19,645 - root - INFO - Preprocessing completed
+2022-03-16 11:24:19,645 - root - DEBUG - Execute method reached
+2022-03-16 11:24:19,646 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-03-16 11:24:19,647 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 445
+2022-03-16 11:24:19,648 - root - INFO - Query executed
+2022-03-16 11:24:19,648 - root - INFO - Query executed
+2022-03-16 11:24:19,648 - root - INFO - Main execution completed
+2022-03-16 11:24:19,648 - root - DEBUG - Main postprocessing method entered
+2022-03-16 11:24:19,648 - root - DEBUG - Main postprocessing completed

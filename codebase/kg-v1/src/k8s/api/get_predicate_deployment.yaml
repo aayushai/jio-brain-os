@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-predicate-api-deployment
+  labels:
+    app: get-predicate-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-predicate-api
+  template:
+    metadata:
+      labels:
+        app: get-predicate-api
+    spec:
+      containers:
+      - name: get-predicate-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_predicate_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31010
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-predicate-service
+spec:
+  selector:
+    app: get-predicate-api
+  ports:
+    - name: tcp-port
+      targetPort: 31010
+      port: 31010
+      protocol: TCP
+  type: ClusterIP

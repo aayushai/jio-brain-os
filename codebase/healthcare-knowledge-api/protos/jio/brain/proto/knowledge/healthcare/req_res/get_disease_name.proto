@@ -1,0 +1,14 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/disease.proto";
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message GetDiseaseNameRequest {
+    uint32 disease_id = 1;
+}
+
+message GetDiseaseNameResponse {
+	string disease_name = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

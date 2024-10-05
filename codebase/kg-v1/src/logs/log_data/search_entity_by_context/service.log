@@ -1,0 +1,77 @@
+2022-03-14 19:48:50,062 - root - DEBUG - request sent from serve method entity_type: "disease"
+keyword: "can"
+context_id: 311
+
+2022-03-14 19:48:50,062 - root - DEBUG - Main execute method entered
+2022-03-14 19:48:50,063 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:48:50,063 - root - INFO - Main Preprocessing completed
+2022-03-14 19:48:50,063 - root - DEBUG - Execute method reached
+2022-03-14 19:48:50,063 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:48:50,063 - root - DEBUG - Validation method reached
+2022-03-14 19:48:50,063 - root - INFO - Validation Completed
+2022-03-14 19:48:50,063 - root - INFO - Preprocessing completed
+2022-03-14 19:48:50,063 - root - DEBUG - Execute method reached
+2022-03-14 19:48:50,064 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-03-14 19:48:50,065 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 346
+2022-03-14 19:48:50,066 - root - INFO - Query executed
+2022-03-14 19:48:50,066 - root - INFO - Query executed
+2022-03-14 19:48:50,066 - root - INFO - Main execution completed
+2022-03-14 19:48:50,066 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:48:50,066 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:48:50,067 - root - DEBUG - request sent from serve method entity_type: "disease"
+keyword: "can"
+context_id: 321
+
+2022-03-14 19:48:50,068 - root - DEBUG - Main execute method entered
+2022-03-14 19:48:50,068 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:48:50,068 - root - INFO - Main Preprocessing completed
+2022-03-14 19:48:50,068 - root - DEBUG - Execute method reached
+2022-03-14 19:48:50,068 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:48:50,068 - root - DEBUG - Validation method reached
+2022-03-14 19:48:50,068 - root - INFO - Validation Completed
+2022-03-14 19:48:50,068 - root - INFO - Preprocessing completed
+2022-03-14 19:48:50,068 - root - DEBUG - Execute method reached
+2022-03-14 19:48:50,070 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 345
+2022-03-14 19:48:50,071 - root - INFO - Query executed
+2022-03-14 19:48:50,071 - root - INFO - Query executed
+2022-03-14 19:48:50,071 - root - INFO - Main execution completed
+2022-03-14 19:48:50,071 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:48:50,071 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:48:54,915 - root - DEBUG - request sent from serve method entity_type: "disease"
+keyword: "can"
+context_id: 311
+
+2022-03-14 19:48:54,915 - root - DEBUG - Main execute method entered
+2022-03-14 19:48:54,915 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:48:54,915 - root - INFO - Main Preprocessing completed
+2022-03-14 19:48:54,915 - root - DEBUG - Execute method reached
+2022-03-14 19:48:54,915 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:48:54,915 - root - DEBUG - Validation method reached
+2022-03-14 19:48:54,915 - root - INFO - Validation Completed
+2022-03-14 19:48:54,915 - root - INFO - Preprocessing completed
+2022-03-14 19:48:54,915 - root - DEBUG - Execute method reached
+2022-03-14 19:48:54,918 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 346
+2022-03-14 19:48:54,918 - root - INFO - Query executed
+2022-03-14 19:48:54,918 - root - INFO - Query executed
+2022-03-14 19:48:54,918 - root - INFO - Main execution completed
+2022-03-14 19:48:54,918 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:48:54,918 - root - DEBUG - Main postprocessing completed
+2022-03-14 19:48:54,920 - root - DEBUG - request sent from serve method entity_type: "disease"
+keyword: "can"
+context_id: 321
+
+2022-03-14 19:48:54,920 - root - DEBUG - Main execute method entered
+2022-03-14 19:48:54,920 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:48:54,920 - root - INFO - Main Preprocessing completed
+2022-03-14 19:48:54,920 - root - DEBUG - Execute method reached
+2022-03-14 19:48:54,920 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:48:54,920 - root - DEBUG - Validation method reached
+2022-03-14 19:48:54,920 - root - INFO - Validation Completed
+2022-03-14 19:48:54,920 - root - INFO - Preprocessing completed
+2022-03-14 19:48:54,920 - root - DEBUG - Execute method reached
+2022-03-14 19:48:54,922 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 346
+2022-03-14 19:48:54,922 - root - INFO - Query executed
+2022-03-14 19:48:54,923 - root - INFO - Query executed
+2022-03-14 19:48:54,923 - root - INFO - Main execution completed
+2022-03-14 19:48:54,923 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:48:54,923 - root - DEBUG - Main postprocessing completed

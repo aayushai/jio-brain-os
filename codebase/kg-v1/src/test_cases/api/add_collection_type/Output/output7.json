@@ -1,0 +1,12 @@
+
+{
+    "status": {
+      "brainStatusInstance": [
+        { "statusCode": "KNOWLEDGE_GRAPH__COLLECTION_ALREADY_EXISTS",
+          "parameters": {
+            "msg": "Collection already exists"
+          }
+        }
+      ]
+    }
+  }

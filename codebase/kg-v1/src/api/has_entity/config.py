@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31011
+API_NAME = "has_entity"

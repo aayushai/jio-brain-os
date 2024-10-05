@@ -1,0 +1,12 @@
+{
+    "entity_id": "common_person/20000050",
+    "language": {
+        "language": ""
+    },
+    "entity_name": {
+        "canonical": "Satya Sen japanes",
+        "aliases": {
+            "satya": true
+        }
+    }
+}

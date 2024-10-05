@@ -1,0 +1,14 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare;
+
+import "jio/brain/proto/knowledge/healthcare/base/context.proto";
+import "jio/brain/proto/knowledge/healthcare/base/status.proto";
+
+message GetContextRequest {
+    uint32 context_id = 1;
+}
+
+message GetContextResponse { 
+    jio.brain.proto.knowledge.healthcare.base.Context context = 1;
+    jio.brain.proto.knowledge.healthcare.base.Status status = 2;
+}

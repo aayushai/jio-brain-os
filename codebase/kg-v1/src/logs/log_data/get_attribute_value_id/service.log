@@ -1,0 +1,18 @@
+2022-03-14 19:52:55,446 - root - DEBUG - request sent from serve method attribute_value_name: "Cough|Colour|Yellow"
+
+2022-03-14 19:52:55,447 - root - DEBUG - Main execute method entered
+2022-03-14 19:52:55,447 - root - DEBUG - Main preprocessing method entered
+2022-03-14 19:52:55,447 - root - INFO - Main Preprocessing completed
+2022-03-14 19:52:55,447 - root - DEBUG - Execute method reached
+2022-03-14 19:52:55,447 - root - DEBUG - Preprocessing method reached
+2022-03-14 19:52:55,447 - root - DEBUG - Validation method reached
+2022-03-14 19:52:55,447 - root - INFO - Validation Completed
+2022-03-14 19:52:55,447 - root - INFO - Preprocessing completed
+2022-03-14 19:52:55,447 - root - DEBUG - Execute method reached
+2022-03-14 19:52:55,448 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8529
+2022-03-14 19:52:55,450 - urllib3.connectionpool - DEBUG - http://localhost:8529 "POST /_db/knowledge_db/_api/cursor HTTP/1.1" 201 371
+2022-03-14 19:52:55,451 - root - INFO - Query executed
+2022-03-14 19:52:55,451 - root - INFO - Query executed
+2022-03-14 19:52:55,451 - root - INFO - Main execution completed
+2022-03-14 19:52:55,451 - root - DEBUG - Main postprocessing method entered
+2022-03-14 19:52:55,451 - root - DEBUG - Main postprocessing completed

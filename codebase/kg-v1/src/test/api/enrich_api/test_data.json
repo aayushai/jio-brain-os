@@ -1,0 +1,35 @@
+{
+  "attribute": [
+    {
+      "type": "agriculture_crop",
+      "entity_ids": [
+        "20000064"
+      ],
+      "attributes": [
+        "type",
+        "variety"
+      ]
+    },
+    {
+      "type": "agriculture_cropseason",
+      "entity_ids": [
+        "20000045"
+      ],
+      "attributes": [
+        "season"
+      ]
+    }
+  ],
+  "predicate": [
+    {
+      "type": "agriculture_cropseason",
+      "entity_ids": [
+        "20000045"
+      ],
+      "predicates": [
+        "agriculture_cropseason_has_agriculture_cropseasonstage"
+      ]
+    }
+  ]
+}
+

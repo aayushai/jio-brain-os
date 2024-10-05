@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-entity-context-api-deployment
+  labels:
+    app: get-entity-context-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-entity-context-api
+  template:
+    metadata:
+      labels:
+        app: get-entity-context-api
+    spec:
+      containers:
+      - name: get-entity-context-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_entity_context_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31054
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-entity-context-service
+spec:
+  selector:
+    app: get-entity-context-api
+  ports:
+    - name: tcp-port
+      targetPort: 31054
+      port: 31054
+      protocol: TCP
+  type: ClusterIP

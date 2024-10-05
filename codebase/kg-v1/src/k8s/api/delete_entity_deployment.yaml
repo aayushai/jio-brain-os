@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delete-entity-api-deployment
+  labels:
+    app: delete-entity-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delete-entity-api
+  template:
+    metadata:
+      labels:
+        app: delete-entity-api
+    spec:
+      containers:
+        - name: delete-entity-api
+          image: jiocontainerregistry.azurecr.io/knowledge_graph/delete_entity_api:v1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 31004
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delete-entity-service
+spec:
+  selector:
+    app: delete-entity-api
+  ports:
+    - name: tcp-port
+      targetPort: 31004
+      port: 31004
+      protocol: TCP
+  type: ClusterIP

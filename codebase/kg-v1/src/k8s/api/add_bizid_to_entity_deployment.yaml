@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: add-bizid-to-entity-api-deployment
+  labels:
+    app: add-bizid-to-entity-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: add-bizid-to-entity-api
+  template:
+    metadata:
+      labels:
+        app: add-bizid-to-entity-api
+    spec:
+      containers:
+      - name: add-bizid-to-entity-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/add_bizid_to_entity_api:v1.0
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31007
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: add-bizid-to-entity-service
+spec:
+  selector:
+    app: add-bizid-to-entity-api
+  ports:
+    - name: tcp-port
+      targetPort: 31007
+      port: 31007
+      protocol: TCP
+  type: ClusterIP

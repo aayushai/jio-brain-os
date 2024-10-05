@@ -1,0 +1,22 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+import "jio/brain/proto/knowledge/healthcare/base/value.proto";
+
+message Attribute {
+    uint32 id = 1;
+    string attribute_type = 2;
+    string name = 3;
+    string query = 4;
+    uint32 order = 5;
+    bool multi_select = 6;
+    bool none_of_these = 7;
+    repeated Value values = 8;
+    repeated DependsOnResponse depends_on = 9;
+}
+
+message DependsOnResponse {
+    uint32 symptom_id = 1;
+    uint32 attribute_id = 2;
+    uint32 attribute_value_id = 3;
+}

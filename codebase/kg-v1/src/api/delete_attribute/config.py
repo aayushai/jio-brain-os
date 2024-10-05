@@ -1,0 +1,3 @@
+API_NAME = "delete_attribute"
+MAX_WORKERS=5
+SERVER_PORT = 31022

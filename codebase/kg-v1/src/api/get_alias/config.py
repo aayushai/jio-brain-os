@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT = 31017
+API_NAME = "get_alias"

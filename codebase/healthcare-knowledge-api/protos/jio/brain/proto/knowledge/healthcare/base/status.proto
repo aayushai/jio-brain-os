@@ -1,0 +1,7 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+message Status {
+    bool is_ok = 1;
+    string status_message = 2;
+}

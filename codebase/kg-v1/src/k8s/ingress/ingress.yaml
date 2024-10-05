@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  name: sg-ingress
+  namespace: storage-garden
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /add-collection-type
+        pathType: Prefix
+        backend:
+          service:
+            name: add-collection-type-service
+            port:
+              number: 31001
+      - path: /add-entity
+        pathType: Prefix
+        backend:
+          service:
+            name: add-entity-service
+            port:
+              number: 31002
+      - path: /?(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: aks-helloworld
+            port:
+              number: 80

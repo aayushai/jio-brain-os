@@ -1,0 +1,30 @@
+{
+    "entityType": "Common_geographicalmandal",
+    "bizId": [
+      {
+        "type": "/bizid/Common_geographicalmandal/mandal_id",
+        "value": "1"
+      }
+    ],
+    "name": {
+      "english": {
+        "canonical": "mandal",
+        "aliases": {
+          "element": {
+            "": true
+          }
+        }
+      }
+    },
+    "attributes": {
+      "name": {
+        "atomic": {
+          "symbolic": {
+            "value": {
+              "str": ""
+            }
+          }
+        }
+      }
+    }
+  }

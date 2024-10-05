@@ -1,0 +1,13 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.healthcare.base;
+
+import "jio/brain/proto/knowledge/healthcare/base/value.proto";
+
+message Context {
+    uint32 id = 1;
+    string context_type = 2;
+    string name = 3;
+    string query = 4;
+    repeated Value values = 5;
+}
+

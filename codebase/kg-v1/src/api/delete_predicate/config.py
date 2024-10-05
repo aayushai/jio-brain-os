@@ -1,0 +1,3 @@
+MAX_WORKERS = 5
+SERVER_PORT= 31023
+API_NAME = "delete_predicate"

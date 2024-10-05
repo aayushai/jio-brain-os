@@ -1,0 +1,20 @@
+2022-03-29 13:33:27,332 - root - DEBUG - entered test method
+2022-03-29 13:33:27,333 - root - DEBUG - request sent from serve method domain_name: "common"
+entity_type: "country"
+attribute_name: "gdp"
+entity_id: 1234
+qualifier_condition: "year>=1995"
+
+2022-03-29 13:33:27,333 - root - DEBUG - Main execute method entered
+2022-03-29 13:33:27,333 - root - DEBUG - Main preprocessing method entered
+2022-03-29 13:33:27,333 - root - INFO - Main Preprocessing completed
+2022-03-29 13:33:27,333 - root - DEBUG - Preprocessing method of InfluxDb entered
+2022-03-29 13:33:27,333 - root - INFO - Preprocessing completed.Measurement generated from preprocessing
+2022-03-29 13:33:27,334 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:8086
+2022-03-29 13:33:27,335 - urllib3.connectionpool - DEBUG - http://localhost:8086 "POST /query?q=CREATE+DATABASE+%22knowledgedb%22 HTTP/1.1" 200 None
+2022-03-29 13:33:27,337 - urllib3.connectionpool - DEBUG - http://localhost:8086 "GET /query?q=SELECT+%2A+FROM+common_country_gdp+WHERE+unified_id+%3D+%271234%27+AND+year%3E%3D1995&db=knowledgedb HTTP/1.1" 200 None
+2022-03-29 13:33:27,337 - root - INFO - Postprocessing related InfluxDB completed
+2022-03-29 13:33:27,337 - root - INFO - Main execution completed
+2022-03-29 13:33:27,337 - root - DEBUG - Main postprocessing method entered
+2022-03-29 13:33:27,338 - root - DEBUG - Main postprocessing completed
+2022-03-29 13:33:27,338 - root - INFO - Testing completed

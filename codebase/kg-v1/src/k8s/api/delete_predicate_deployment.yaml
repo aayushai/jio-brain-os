@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: delete-predicate-api-deployment
+  labels:
+    app: delete-predicate-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: delete-predicate-api
+  template:
+    metadata:
+      labels:
+        app: delete-predicate-api
+    spec:
+      containers:
+        - name: delete-predicate-api
+          image: jiocontainerregistry.azurecr.io/knowledge_graph/delete_predicate_api:v1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 31023
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: delete-predicate-service
+spec:
+  selector:
+    app: delete-predicate-api
+  ports:
+    - name: tcp-port
+      targetPort: 31023
+      port: 31023
+      protocol: TCP
+  type: ClusterIP

@@ -1,0 +1,48 @@
+{
+  "vertical":"Common",
+  "collection_name": "persontest",
+  "is_predicate": false,
+  "attribute_schema": {
+      "dynamic" : {
+          "salary": {
+              "is_required": false,
+              "schema": {
+                  "type": "object",
+                  "properties": {
+                      "atomic": {
+                          "type": "object",
+                          "properties": {
+                              "numeric": {
+                                  "type": "object",
+                                  "properties": {
+                                      "value": {
+                                          "type": "object",
+                                          "properties": {
+                                              "u32": {
+                                                  "type": "number"
+                                              }
+                                          },
+                                          "required": [
+                                              "u32"
+                                          ]
+                                      }
+                                  },
+                                  "required": [
+                                      "value"
+                                  ]
+                              }
+                          },
+                          "required": [
+                              "numeric"
+                          ]
+                      }
+                  },
+                  "required": [
+                      "atomic"
+                  ]
+              }
+          }
+
+      }
+  }
+}

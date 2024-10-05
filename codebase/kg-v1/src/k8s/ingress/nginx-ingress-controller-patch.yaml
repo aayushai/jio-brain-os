@@ -1,0 +1,112 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: controller
+          ports:
+            - containerPort: 31001
+              hostPort: 31001
+            - containerPort: 31002
+              hostPort: 31002
+            - containerPort: 31003
+              hostPort: 31003
+            - containerPort: 31004
+              hostPort: 31004
+            - containerPort: 31004
+              hostPort: 31004
+            - containerPort: 31006
+              hostPort: 31006
+            - containerPort: 31007
+              hostPort: 31007
+            - containerPort: 31008
+              hostPort: 31008
+            - containerPort: 31009
+              hostPort: 31009
+            - containerPort: 31010
+              hostPort: 31010
+            - containerPort: 31011
+              hostPort: 31011
+            - containerPort: 31012
+              hostPort: 31012
+            - containerPort: 31013
+              hostPort: 31013
+            - containerPort: 31006
+              hostPort: 31006
+            - containerPort: 31014
+              hostPort: 31014
+            - containerPort: 31015
+              hostPort: 31015
+            - containerPort: 31016
+              hostPort: 31016
+            - containerPort: 31017
+              hostPort: 31017
+            - containerPort: 31018
+              hostPort: 31018
+            - containerPort: 31019
+              hostPort: 31019
+            - containerPort: 31020
+              hostPort: 31020
+            - containerPort: 31021
+              hostPort: 31021
+            - containerPort: 31022
+              hostPort: 31022
+            - containerPort: 31023
+              hostPort: 31023
+            - containerPort: 31024
+              hostPort: 31024
+            - containerPort: 31025
+              hostPort: 31025
+            - containerPort: 31027
+              hostPort: 31027
+            - containerPort: 31026
+              hostPort: 31026
+            - containerPort: 31028
+              hostPort: 31028
+            - containerPort: 31029
+              hostPort: 31029
+            - containerPort: 31030
+              hostPort: 31030
+            - containerPort: 31031
+              hostPort: 31031
+            - containerPort: 31032
+              hostPort: 31032
+            - containerPort: 31034
+              hostPort: 31034
+            - containerPort: 31035
+              hostPort: 31035
+            - containerPort: 31033
+              hostPort: 31033
+            - containerPort: 30000
+              hostport: 30000
+            - containerPort: 31036
+              hostPort: 31036
+            - containerPort: 31038
+              hostPort: 31038
+            - containerPort: 31039
+              hostPort: 31039
+            - containerPort: 31046
+              hostPort: 31046
+            - containerPort: 31044
+              hostPort: 31044
+            - containerPort: 31048
+              hostPort: 31048
+            - containerPort: 31051
+              hostPort: 31051
+            - containerPort: 31047
+              hostPort: 31047
+            - containerPort: 31053
+              hostPort: 31053
+            - containerPort: 31054
+              hostPort: 31054
+            - containerPort: 31045
+              hostPort: 31045
+            - containerPort: 31055
+              hostPort: 31055
+            - containerPort: 31056
+              hostPort: 31056
+            - containerPort: 31052
+              hostPort: 31052
+            - containerPort: 31050
+              hostPort: 31050
+            - containerPort: 31043
+              hostPort: 31043

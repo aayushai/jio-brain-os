@@ -1,0 +1,18 @@
+syntax = "proto3";
+package jio.brain.proto.knowledge.nugget;
+
+import "jio/brain/proto/knowledge/base/entity.proto";
+import "jio/brain/proto/base/status.proto";
+import "jio/brain/proto/quantity/quantity.proto";
+
+message GetEntitiesByAttributeRequest {
+    string domain_name = 1;
+    string entity_type = 2;
+    string attribute_condition = 3;
+    string qualifier_condition = 4;
+}
+
+message GetEntitiesByAttributeResponse {
+    jio.brain.proto.base.BrainStatus status = 1;
+    repeated jio.brain.proto.knowledge.base.Entity entity_set = 2;
+}

@@ -1,0 +1,12 @@
+{
+  "entity_id":"",
+  "attribute_name":"job",
+  "attribute":{
+    "atomic": {
+      "symbolic": {
+        "value": {
+          "str": "tester"
+        }
+      }
+    } 
+}}

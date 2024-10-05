@@ -1,0 +1,365 @@
+- name: KG-deployment
+  gather_facts: false
+  hosts: localhost
+  vars:
+    - api_name: '{{ api_name }}'
+    - port: '{{ port }}'
+    - deployment_template: ./deployment_template
+    - docker_template: ./dockerfile_template
+    - api_directory: '../src/api/{{ api_name }}'
+    - api_config_file: '{{ api_directory }}/config.py'
+    - common_test_config_file: ../src/test/utils/config.py
+    - api_test_config_file: '../src/test/api/{{ api_name }}/config.py'
+    - dockerfile: '{{ api_directory }}/Dockerfile'
+    - deployment_file: ../src/k8s/api/{{api_name}}_deployment.yaml
+    - image_tag: '{{ image_tag }}'
+    - docker_registry: jiocontainerregistry.azurecr.io
+    - docker_registry_repo: knowledge_graph
+    - docker_build_path: ../src
+    - docker_image_name: '{{ docker_registry }}/{{ docker_registry_repo }}/{{ api_name }}_api'
+    - k8s_namespace: healthcare-kg
+    - ingress_namespace: storage-garden
+    - az_username: a8c9c888-7a7e-42f8-8448-9a8de591a48d
+    - az_tenant: 98f13429-d038-4e5e-85d8-846c6a963288
+    - az_password: Jyg7Q~CgBHj0p74YKUzUfnRbi_PS_kA9w52pD
+    - az_account: Jio-COE
+    - kube_cluster: BrainosSG-aks
+    - kube_resource_group: jioai_Storage-Garden_nonprod_RG
+    - makefile_location: ../src
+    - channel_name: '{{ api_name }}_channel'
+    - server_process_grep_string: make server_'{{ api_name }}'
+    - docker_app_dir: /app
+    - configmap_fpath: ../src/k8s/ingress/configmap/cofigmap.yaml
+    - ing_controller_deployment_name: nginx-ingress-ingress-nginx-controller
+    - ing_controller_service_name: nginx-ingress-ingress-nginx-controller
+    - ing_controller_deployment_fpath: ../src/k8s/ingress/nginx-ingress-controller-patch.yaml
+    - ing_controller_service_fpath: ../src/k8s/ingress/nginx-ingress-svc-controller-patch.yaml
+
+  tasks:
+
+
+    - name: Set variables
+      block:
+       - name: Register API name
+         shell: echo {{ api_name }} | tr '_' '-'
+         register: _api_name_hyphen
+       - name: Set '{{ _api_name_hyphen.stdout }}' as api_name
+         set_fact:
+          api_name_hyphen: '{{ _api_name_hyphen.stdout }}'
+          api: '{{ _api_name_hyphen.stdout }}-api'
+          service: '{{ _api_name_hyphen.stdout }}-service'
+      tags:
+       - always
+
+    - name: Login to azure k8s and docker registry
+      block:
+       - name: Check if az-cli is installed
+         shell: az -v
+         ignore_errors: True
+         register: az_test
+       - name: az-cli command not found
+         fail:
+          msg: The command "az -v" failed, seems like az-cli is not installed.
+         when: az_test.failed
+       - name: Check if azure logged in
+         shell: az account list -o tsv | grep '{{ az_account }}'
+         register: account
+         ignore_errors: True
+       - name: Az login
+         shell: az login --service-principal --username {{ az_username }} --tenant {{ az_tenant }} --password {{ az_password }}
+         when: account.stdout_lines == []
+       - name: Check if kubectl is installed
+         shell: kubectl config view
+         ignore_errors: True
+         register: kubectl_test
+       - name: kubectl command not found
+         fail:
+          msg: The command "kubectl version" failed, seems like kubectl is not installed.
+         when: kubectl_test.failed
+       - name: Check if azure logged in
+         shell: kubectl config get-clusters | grep {{ kube_cluster }}
+         register: cluster
+         ignore_errors: True
+       - name: Az login
+         shell: az aks get-credentials --resource-group {{ kube_resource_group }} --name {{ kube_cluster }}
+         when: cluster.stdout_lines == []
+       - name: Login to {{ docker_registry }}
+         shell: az acr login -n {{ docker_registry }}
+      tags:
+       - login
+       - setup
+
+    - name: Run server on localhost
+      block:
+       - name: Check server port
+         shell: grep 'SERVER_PORT\s*=\s*[0-9]\+' '{{ api_config_file }}' | grep -o '[0-9]\+'
+         register: server_port
+         failed_when: server_port.stdout_lines == [] or server_port.failed
+       - name: Change server port if required
+         replace:
+          regexp: '{{ server_port.stdout }}'
+          replace: '{{ port }}'
+          path: '{{ api_config_file }}'
+         when: server_port.stdout != port
+       - name: Run server
+         shell: make server_'{{ api_name }}' >/dev/null 2>&1 &
+         args:
+          chdir: '{{ makefile_location }}'
+      tags:
+       - run_server
+       - test
+
+    - name: Test client on localhost
+      block:
+       - name: Check client port
+         shell: grep "channel\s*=\s*" '{{ api_test_config_file }}'
+         register: api_channel1
+         ignore_errors: True
+       - name: Look for client port in common config file
+         shell: grep  '{{ channel_name }}\s*=\s*' '{{ common_test_config_file }}'
+         register: api_channel2
+         when: api_channel1.failed or api_channel1.stdout_lines == []
+       - name: Change IP to localhost in '{{ api_test_config_file }}'
+         replace:
+          path: '{{ api_test_config_file }}'
+          regexp: 'channel\s*=\s*.*'
+          replace: "channel = 'localhost:{{ port }}'"
+         when: api_channel2 is not defined
+       - name: Change IP to localhost in '{{ common_test_config_file }}'
+         replace:
+          path: '{{ common_test_config_file }}'
+          regexp: '{{ channel_name }}\s*=\s*.*'
+          replace: "{{ channel_name }} = 'localhost:{{ port }}'"
+         when: api_channel2 is defined
+       - name: Run client
+         shell: make client_'{{ api_name }}'
+         register: client_output
+         args:
+          chdir: '{{ makefile_location }}'
+       - name: Print client output
+         debug:
+          msg: '{{ client_output.stdout }}'
+       - name: Stop if client output has "failed"
+         fail:
+          msg: '{{ client_output.stdout }}'
+         when: '"failed" in client_output.stdout'
+      tags:
+       - test_client_localhost
+       - test
+
+    - name: Kill server on localhost
+      block:
+       - name: Get server PID
+         shell: ps -ef | grep 'make server_{{ api_name }}' |  grep -v grep | awk '{ print $2 }'
+         register: running_processes
+       - name: Try killing server
+         shell: kill '{{ item }}'
+         with_items: '{{ running_processes.stdout_lines }}'
+       - name: Check if server closed
+         wait_for:
+          path: '/proc/{{ item }}/status'
+          state: absent
+         ignore_errors: yes
+         with_items: '{{ running_processes.stdout_lines }}'
+         register: killed_processes
+       - name: Kill if stuck
+         shell: kill -9 '{{ item }}'
+         with_items: '{{ killed_processes.results | select("failed") | map(attribute="item") | list }}'
+      tags:
+       - kill_server
+       - test
+
+    - name: Build and push docker image to registry
+      block:
+      - name: Check if '{{ dockerfile }}' present
+        stat:
+         path: '{{ dockerfile }}'
+        register: stat_result
+      - name: Copy template file to '{{ dockerfile }}'
+        copy:
+         src: '{{ docker_template }}'
+         dest: '{{ dockerfile }}'
+        when: not stat_result.stat.exists
+      - name: Set port in '{{ dockerfile }}'
+        replace:
+         replace: '{{ port }}'
+         regexp: '\$\{port\}'
+         path: '{{ dockerfile }}'
+      - name: Set api name in '{{ dockerfile }}'
+        replace:
+         replace: '{{ api_name }}'
+         regexp: '\$\{api_name\}'
+         path: '{{ dockerfile }}'
+      - name: Remove image
+        community.docker.docker_image:
+         state: absent
+         name: '{{ docker_image_name }}'
+         tag: '{{ image_tag }}'
+         force_absent: yes
+      #TODO: use module to build docker image
+      - name: docker build -f {{ dockerfile }} -t {{ docker_image_name }}:{{ image_tag }} {{ docker_build_path }}
+        shell: 'docker build -f {{ dockerfile }} -t {{ docker_image_name }}:{{ image_tag }} {{ docker_build_path }}'
+      tags:
+       - build
+
+    - name: Run docker container on localhost and test client
+      block:
+      - name: Run server inside docker container
+        docker_container:
+         name: '{{ api_name }}'
+         image: '{{ docker_image_name }}:{{ image_tag }}'
+         ports:
+          - '{{ port }}:{{ port }}'
+         state: started
+      - name: Run client inside docker container
+        community.docker.docker_container_exec:
+         container: '{{ api_name }}'
+         command: make client_{{ api_name }}
+         chdir: '{{ docker_app_dir }}'
+        #shell: docker exec -it {{ api_name }} make client_{{ api_name }}
+        register: client_output
+      - name: Print client output
+        debug:
+         msg: '{{ client_output.stdout }}'
+      - name: Stop if client output has "failed"
+        fail:
+         msg: '{{ client_output.stdout }}'
+        when: '"failed" in client_output.stdout'
+      - name: Run server inside docker container
+        docker_container:
+         name: '{{ api_name }}'
+         image: '{{ docker_image_name }}:{{ image_tag }}'
+         ports:
+          - '{{ port }}:{{ port }}'
+         state: absent
+      tags:
+       - build
+       - test_client_in_docker
+
+    - name: Push docker image
+      block:
+      - name: docker push {{ docker_image_name }}:{{ image_tag }}
+        #shell: 'docker push {{ docker_image_name }}:{{ image_tag }}'
+        community.docker.docker_image:
+         build:
+          path: '{{ docker_build_path }}'
+          dockerfile: '{{ dockerfile }}'
+         name: '{{ docker_image_name }}'
+         tag: '{{ image_tag }}'
+         push: yes
+         source: build
+      tags:
+       - push
+
+    - name: Deploy '{{ deployment_file }}'
+      block:
+       - name: Check if '{{ deployment_file }}' present
+         stat:
+          path: '{{ deployment_file }}'
+         register: stat_result
+       - name: Copy template file to '{{ deployment_file }}'
+         copy:
+          src: '{{ deployment_template }}'
+          dest: '{{ deployment_file }}'
+         when: not stat_result.stat.exists
+       - name: Set api name in '{{ deployment_file }}'
+         replace:
+          replace: '{{ api_name }}'
+          regexp: '\$\{api_name\}'
+          path: '{{ deployment_file }}'
+         when: not stat_result.stat.exists
+       - name: Set port in '{{ deployment_file }}'
+         replace:
+          replace: '{{ port }}'
+          regexp: '\$\{port\}'
+          path: '{{ deployment_file }}'
+       - name: Set api name in '{{ deployment_file }}'
+         replace:
+         #TODO: set fact for api_name_hyphen
+          replace: '{{ api_name_hyphen }}'
+          regexp: '\$\{api_name_hyphen\}'
+          path: '{{ deployment_file }}'
+       - name: Set tag name in '{{ image_tag }}'
+         replace:
+          replace: '{{ image_tag }}'
+          regexp: '\$\{image_tag\}'
+          path: '{{ deployment_file }}'
+       - name: Get docker image tag in '{{ deployment_file }}'
+         shell: grep 'image:\s*{{ docker_image_name }}:' '{{ deployment_file }}' | awk -F':' '{ print $NF }'
+         register: old_tag
+         when: stat_result.stat.exists
+       - name: Delete existing deployment
+         kubernetes.core.k8s:
+          state: absent
+          src: '{{ deployment_file }}'
+          namespace: '{{ k8s_namespace }}'
+       - name:  Replace {{ old_tag.stdout }} with {{ image_tag }} in {{ deployment_file }}
+         replace:
+          path: '{{ deployment_file }}'
+          regexp: '{{ old_tag.stdout }}'
+          replace: '{{ image_tag }}'
+       - name: Deploy
+         kubernetes.core.k8s:
+          state: present
+          src: '{{ deployment_file }}'
+          namespace: '{{ k8s_namespace }}'
+      tags:
+       - deploy
+       - apply_deployment
+
+    - name: Patch ingress controller and cofigmap
+      block:
+      - name: Look for service name in '{{ configmap_fpath }}'
+        shell: 'grep {{ service }} {{ configmap_fpath }}'
+        register: service_in_configmap
+        ignore_errors: True
+      - name: Change service line in {{ configmap_fpath }} if mentioned
+        lineinfile:
+         line: '    {{ port }}: "{{ k8s_namespace }}/{{ service }}:{{ port }}"'
+         dest: '{{ configmap_fpath }}'
+         regexp: '{{ service_in_configmap.stdout }}'
+        with_items: '{{ service_in_configmap.stdout }}'
+        when: service_in_configmap.rc == 0
+      - name: Add service in {{ configmap_fpath }} if not already present
+        lineinfile:
+         line: '    {{ port }}: "{{ k8s_namespace }}/{{ service }}:{{ port }}"'
+         dest: '{{ configmap_fpath }}'
+         state: present
+        when: service_in_configmap.rc == 1
+      - name: Apply configmap
+        kubernetes.core.k8s:
+         state: present
+         src: '{{ configmap_fpath }}'
+         namespace: '{{ ingress_namespace }}'
+      - name: Add port if not present in {{ ing_controller_deployment_fpath }}
+        lineinfile:
+         path: '{{ ing_controller_deployment_fpath }}'
+         line: '{{ item }}'
+         state: present
+        with_items:
+         - '            - containerPort: {{ port }}'
+         - '              hostPort: {{ port }}'
+      - name: Add api if not present in {{ ing_controller_service_fpath }}
+        lineinfile:
+         path: '{{ ing_controller_service_fpath }}'
+         line: '{{ item }}'
+         state: present
+        with_items:
+         - '    - nodePort: {{ port }}'
+         - '      port: {{ port }}'
+         - '      name: {{ api }}'
+      - name: Patch ingress controller
+      #  kubernetes.core.k8s:
+      #   state: patched
+      #   src: '{{ item }}'
+      #   namespace: '{{ k8s_namespace }}'
+      #  with_items:
+      #   - '{{ ing_controller_deployment_fpath }}'
+      #   - '{{ ing_controller_service_fpath }}'
+        shell: kubectl patch deployment '{{ ing_controller_deployment_name }}' -n '{{ ingress_namespace }}' --patch "$(cat {{ ing_controller_deployment_fpath }})"
+      - name: Patch ingress controller
+        shell: kubectl patch service '{{ ing_controller_service_name }}' -n '{{ ingress_namespace }}' --patch "$(cat {{ ing_controller_service_fpath }})"
+
+      tags:
+       - deploy
+       - patch_ingress

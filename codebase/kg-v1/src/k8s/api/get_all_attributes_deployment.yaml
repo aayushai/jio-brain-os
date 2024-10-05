@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: get-all-attributes-api-deployment
+  labels:
+    app: get-all-attributes-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: get-all-attributes-api
+  template:
+    metadata:
+      labels:
+        app: get-all-attributes-api
+    spec:
+      containers:
+      - name: get-all-attributes-api
+        image: jiocontainerregistry.azurecr.io/knowledge_graph/get_all_attributes_api:v2.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 31043
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: get-all-attributes-service
+spec:
+  selector:
+    app: get-all-attributes-api
+  ports:
+    - name: tcp-port
+      targetPort: 31043
+      port: 31043
+      protocol: TCP
+  type: ClusterIP
